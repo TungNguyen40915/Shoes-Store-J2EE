@@ -23,10 +23,27 @@ public class ShoesTypeDAO {
             ResultSet rs = stmt.executeQuery("SELECT * FROM shoes_type");
             while(rs.next())
             {
-                ShoesType typesTemp = extractShoesTypeFromResultSet(rs);
-                types.add(typesTemp);
+                ShoesType typeTemp = extractShoesTypeFromResultSet(rs);
+                typeTemp.setBrand(BrandDAO.getBrandById(typeTemp.getBrandId()));
+                types.add(typeTemp);
             }
             return types;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ShoesType getShoesTypeById(int id) {
+
+        Connection connection = ConnectionFactory.getConnection();
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM shoes_type where id="+Integer.toString(id));
+            while(rs.next())
+            {
+                return extractShoesTypeFromResultSet(rs);
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -55,8 +72,7 @@ public class ShoesTypeDAO {
         ShoesType type = new ShoesType();
         type.setId( rs.getInt("id") );
         type.setName( rs.getString("name") );
-        int brandId = rs.getInt("brandID");
-        type.setBrand(BrandDAO.getBrandById(brandId));
+        type.setBrandId(rs.getInt("brandID"));
         return type;
     }
 

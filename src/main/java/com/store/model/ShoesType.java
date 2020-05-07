@@ -9,14 +9,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ShoesType {
     private int id;
     private String name;
+    private int brandId;
+
     private Brand brand;
 
     public ShoesType() {
     }
 
-    public ShoesType(int id, String name, Brand brand) {
+    public ShoesType(int id, String name, int brandId, Brand brand) {
         this.id = id;
         this.name = name;
+        this.brandId = brandId;
         this.brand = brand;
     }
 
@@ -42,5 +45,13 @@ public class ShoesType {
 
     public void setBrand(Brand brand) {
         this.brand = brand;
+    }
+
+    public int getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(int brandId) {
+        this.brandId = brandId;
     }
 }
