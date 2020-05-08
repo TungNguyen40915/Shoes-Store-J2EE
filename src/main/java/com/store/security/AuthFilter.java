@@ -1,9 +1,13 @@
 package com.store.security;
 
+import com.store.DAO.UserDAO;
 import com.store.util.Constant;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.rmi.server.ExportException;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -40,19 +44,16 @@ public class AuthFilter implements ContainerRequestFilter
             Method resourceMethod = resourceInfo.getResourceMethod();
             Permission annotation = resourceMethod.getAnnotation(com.store.security.Permission.class);
 
-            for (Role role : annotation.roles()) {
-                switch (role) {
-                    case ADMIN:
-                        //TODO
-                        throw new Exception();
-                    case PM:
-                        //TODO
-                        throw new Exception();
-                    case USER:
-                        //TODO
-                        throw new Exception();
-                }
+            List<Role> permittedRoles = Arrays.asList(annotation.roles());
+            List<Role> userRoles = UserDAO.getUserRole(username);
+
+            boolean isPermitted = false;
+            for (Role role : permittedRoles){
+                if (userRoles.contains(role))
+                    isPermitted = true;
             }
+
+            if (!isPermitted) throw new Exception();
         }
         catch (Exception ex) {
             Response.ResponseBuilder builder = null;

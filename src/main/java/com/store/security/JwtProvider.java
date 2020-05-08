@@ -7,7 +7,7 @@ public class JwtProvider {
 
     static private String jwtSecret = "MYSECRET";
 
-    static private int jwtExpiration = 1000000;
+    static private int jwtExpiration = 100000000;
 
     static public String generateJwtToken(String username) {
 
