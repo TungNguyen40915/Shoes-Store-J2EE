@@ -13,6 +13,8 @@ public class Customer {
     private String phoneNumber;
     private int userId;
 
+    private User user;
+
     public Customer() {
     }
 
@@ -62,5 +64,13 @@ public class Customer {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

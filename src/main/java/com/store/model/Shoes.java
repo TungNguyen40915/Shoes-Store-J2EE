@@ -23,6 +23,7 @@ public class Shoes {
     private boolean deleteFlag;
 
     private ShoesType type;
+    private Gender gender;
 
     public Shoes() {
     }
@@ -153,5 +154,13 @@ public class Shoes {
 
     public void setType(ShoesType type) {
         this.type = type;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 }

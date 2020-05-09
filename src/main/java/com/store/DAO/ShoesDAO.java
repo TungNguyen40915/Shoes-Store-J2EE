@@ -1,5 +1,6 @@
 package com.store.DAO;
 
+import com.store.model.Customer;
 import com.store.model.Shoes;
 import com.store.model.ShoesType;
 import com.store.util.ConnectionFactory;
@@ -127,6 +128,22 @@ public class ShoesDAO {
                 shoes.add(s);
             }
             return shoes;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Shoes getShoesById(int id) {
+
+        Connection connection = ConnectionFactory.getConnection();
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM shoes where id="+Integer.toString(id));
+            while(rs.next())
+            {
+                return extractShoesFromResultSet(rs);
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

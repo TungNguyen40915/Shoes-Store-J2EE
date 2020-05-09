@@ -1,7 +1,6 @@
 package com.store.DAO;
 
-import com.store.model.Customer;
-import com.store.model.Gender;
+import com.store.model.*;
 import com.store.util.ConnectionFactory;
 
 import java.sql.Connection;
@@ -11,35 +10,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenderDAO {
+public class StatusDAO {
 
-    public static List<Gender> getAllGenders() {
-        List<Gender> genders = new ArrayList<Gender>();
-        Connection connection = ConnectionFactory.getConnection();
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM gender");
-            while(rs.next())
-            {
-                Gender gendersTemp = extractGenderFromResultSet(rs);
-                genders.add(gendersTemp);
-            }
-            return genders;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
-
-    public static Gender getGenderById(int id) {
+    public static Status getStatusById(int id) {
 
         Connection connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM gender where id="+Integer.toString(id));
+            ResultSet rs = stmt.executeQuery("SELECT * FROM status where id="+Integer.toString(id));
             while(rs.next())
             {
-                return extractGenderFromResultSet(rs);
+                return extractStatusFromResultSet(rs);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -47,13 +28,29 @@ public class GenderDAO {
         return null;
     }
 
-
-    private static Gender extractGenderFromResultSet(ResultSet rs) throws SQLException {
-        Gender gender = new Gender();
-        gender.setId( rs.getInt("id") );
-        gender.setName( rs.getString("name") );
-        return gender;
+    public static List<Status> getAllStatus() {
+        List<Status> status = new ArrayList<Status>();
+        Connection connection = ConnectionFactory.getConnection();
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM status");
+            while(rs.next())
+            {
+                Status stas = extractStatusFromResultSet(rs);
+                status.add(stas);
+            }
+            return status;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
+    private static Status extractStatusFromResultSet(ResultSet rs) throws SQLException {
+        Status status = new Status();
+        status.setId( rs.getInt("id") );
+        status.setName( rs.getString("name") );
+        return status;
+    }
 
 }
