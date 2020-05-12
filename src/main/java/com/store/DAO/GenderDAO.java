@@ -11,8 +11,12 @@ import java.sql.Statement;
 
 public class GenderDAO {
 
+    private static Connection connection;
+
     public static int getGenderID(String genderName){
-        Connection connection = ConnectionFactory.getConnection();
+
+        if(connection == null)
+            connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
             String query = "SELECT id FROM Gender Where name = \"" + genderName + "\" LIMIT 1;";
@@ -28,7 +32,9 @@ public class GenderDAO {
     }
 
     public static String getGenderName(int id){
-        Connection connection = ConnectionFactory.getConnection();
+        if(connection == null)
+            connection = ConnectionFactory.getConnection();
+
         try {
             Statement stmt = connection.createStatement();
             String query = "SELECT name FROM Gender Where id = \"" + id + "\" LIMIT 1;";

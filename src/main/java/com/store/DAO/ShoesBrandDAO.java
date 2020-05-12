@@ -6,10 +6,15 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShoesBrandDAO {
+    private static Connection connection;
+
     public static int getBrandID(String brandName){
-        Connection connection = ConnectionFactory.getConnection();
+        if(connection == null)
+            connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
             String query = "SELECT id FROM ShoesBrand Where name = \"" + brandName + "\" AND deleteFlag = 0 LIMIT 1;";
@@ -25,7 +30,8 @@ public class ShoesBrandDAO {
     }
 
     public static String getBrandName(int id){
-        Connection connection = ConnectionFactory.getConnection();
+        if(connection == null)
+            connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
             String query = "SELECT name FROM ShoesBrand Where id = \"" + id + "\" AND deleteFlag = 0 LIMIT 1;";
@@ -38,5 +44,23 @@ public class ShoesBrandDAO {
             ex.printStackTrace();
         }
         return "";
+    }
+
+    public static List<String> getAllBrands(){
+        List<String> list = new ArrayList<String>();
+        if(connection == null)
+            connection = ConnectionFactory.getConnection();
+        try {
+            Statement stmt = connection.createStatement();
+            String query = "SELECT name FROM ShoesBrand";
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next())
+            {
+                list.add(rs.getString("name"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
     }
 }

@@ -1,21 +1,19 @@
 package com.store.model;
 
-import javax.security.auth.Subject;
-import java.util.List;
-
 public class Response {
     private String code;
     private String msg;
     private String data;
+    private int totalRecords;
 
     public Response() {
     }
 
-
-    public Response(String code, String msg, String data) {
+    public Response(String code, String msg, String data, int totalRecords) {
         this.code = code;
         this.msg = msg;
         this.data = data;
+        this.totalRecords = totalRecords;
     }
 
     public String getCode() {
@@ -40,5 +38,13 @@ public class Response {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public int getTotalRecords() {
+        return totalRecords;
+    }
+
+    public void setTotalRecords(int totalRecords) {
+        this.totalRecords = totalRecords;
     }
 }

@@ -6,12 +6,8 @@ import com.store.DTO.ShoesDTO;
 import com.store.model.Response;
 import com.store.model.Shoes;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.json.JSONObject;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,20 +28,47 @@ public class ShoesController {
             @QueryParam("page") String page,
             @QueryParam("style") String style,
             @QueryParam("brand") String brand,
-            @QueryParam("search") String search
+            @QueryParam("search") String search,
+            @QueryParam("size") String pageSize
     ) {
         Response res = new Response();
         res.setCode("OK");
         res.setMsg("Retrieve Data Successfully");
         try {
-
             List<Shoes> shoes = new ArrayList<Shoes>();
             List<ShoesDTO> shoesDTOS = new ArrayList<ShoesDTO>();
-            shoes = ShoesDAO.getAllShoes(gender,isNew,sale,size,page,style,brand,search);
+            shoes = ShoesDAO.getAllShoes(gender,isNew,sale,size,page,style,brand,search, pageSize);
             for (Shoes s: shoes) {
                 shoesDTOS.add(ShoesConverter.ConvertShoesEntityToShoesDTO(s));
             }
             res.setData(mapper.writeValueAsString(shoesDTOS));
+            res.setTotalRecords(ShoesDAO.getTotalRecords(gender,isNew,sale,size,page,style,brand,search, pageSize));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            res.setData("[]");
+        }
+        return res;
+    }
+
+
+    @GET
+    @Path("/{id}")
+    @Produces({ MediaType.APPLICATION_JSON })
+    public Response getShoesById(@PathParam("id") int id){
+        Response res = new Response();
+        res.setCode("OK");
+        res.setMsg("Get Data Successfully");
+        try {
+            Shoes shoes = ShoesDAO.getShoesById(id);
+            if (shoes == null) {
+                res.setTotalRecords(0);
+                res.setData("{}");
+            }
+            else{
+                res.setTotalRecords(1);
+                res.setData(mapper.writeValueAsString(ShoesConverter.ConvertShoesEntityToShoesDetailDTO(shoes)));
+            }
         } catch (IOException e) {
             e.printStackTrace();
             res.setData("[]");
