@@ -1,0 +1,367 @@
+drop database if exists ShoesStore;
+create database ShoesStore;
+ALTER DATABASE ShoesStore CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+use ShoesStore;
+
+create table Provider(
+    id int not null auto_increment,
+    name char(100) not null,
+    deleteFlag bit default 0,
+    primary key(id)
+);
+
+create table Size(
+    id int not null auto_increment,
+    name char(100) not null,
+    deleteFlag bit default 0,
+    primary key(id)
+);
+
+
+create table ShoesType(
+    id int not null auto_increment,
+    name char(100) not null,
+    description char(100),
+    deleteFlag bit default 0,
+    primary key(id)
+);
+
+create table ShoesBrand(
+    id int not null auto_increment,
+    name char(100) not null,
+    country char(100),
+    deleteFlag bit default 0,
+    primary key(id)
+);
+
+create table Gender(
+    id int not null auto_increment,
+    name char(100) not null,
+    primary key(id)
+);
+
+create table ShoesImage(
+    id int not null auto_increment,
+    shoesID int not null,
+    imagePath char(200) not null,
+    deleteFlag bit default 0,
+    primary key(id)
+);
+
+create table Shoes(
+    id int not null auto_increment,
+    createDate datetime default CURRENT_TIMESTAMP,
+    code char(50) not null,
+    name char(100) not null,
+    description char(100),
+    rating float default 0,
+    styleID int not null,
+    brandID int not null,
+    genderID int not null,
+    price int not null,
+    isNew bit default 0,
+    isOnSale bit default 0,
+    deleteFlag bit default 0,
+    primary key(id)
+);
+
+create table Stock(
+    id int not null auto_increment,
+    shoesID int not null,
+    sizeID int not null,
+    instock int not null,
+    primary key(id)
+);
+
+create table Import(
+    id int not null auto_increment,
+    providerID int not null,
+    importDate datetime not null,
+    totalQuantity int not null,
+    totalCost int not null,
+    deleteFlag bit default 0,
+    primary key(id)
+);
+
+create table ImportDetail(
+    id int not null auto_increment,
+    importID int not null,
+    stockID int not null,
+    quantity int not null,
+    originalPrice int not null,
+    deleteFlag bit default 0,
+    primary key(id)
+);
+
+create table Cart(
+    id int not null auto_increment,
+    customerID int not null,
+    primary key(id)
+);
+
+create table CartItem(
+    id int not null auto_increment,
+    cartID int not null,
+    stockID int not null,
+    amount int not null,
+    deleteFlag bit default 0,
+    primary key(id)
+);
+
+
+create table CustomerOrder(
+    id int not null auto_increment,
+    customerID int not null,
+    orderDate datetime not null,
+    confirmDate datetime,
+    deliveryDate datetime,
+    total int not null,
+    saleID int not null,
+    status char(20) not null,
+    paymentStatus char(20) not null,
+    deliveryAddress char(100) not null,
+    deleteFlag bit default 0,
+    primary key(id)
+);
+
+create table OrderItem(
+    id int not null auto_increment,
+    orderID int not null,
+    stockID int not null,
+    amount int not null,
+    pricePerUnit int not  null,
+    deleteFlag bit default 0,
+    primary key(id)
+);
+
+
+create table Sale(
+    id int not null auto_increment,
+    saleType char(10) not null,
+    amount int not null,
+    startDate datetime not null,
+    expiredDate datetime not null,
+    status char(10) not null,
+    deleteFlag bit default 0,
+    primary key(id)
+);
+
+create table SaleItem(
+    id int not null auto_increment,
+    saleID int not null,
+    stockID int not null,
+    deleteFlag bit default 0,
+    primary key(id)
+);
+
+create table Customer(
+    id int not null auto_increment,
+    name char(100) not null,
+    dateOfBirth datetime,
+    email char(30),
+    phoneNumber char(10),
+    genderID int,
+    size char(100),
+    userID int not null,
+    deleteFlag bit default 0,
+    primary key(id)
+);
+
+create table Address(
+    id int not null auto_increment,
+    customerID int not null,
+    city char(100) not null,
+    district char(100) not null,
+    ward char(100) not null,
+    street char(100),
+    primary key(id)
+);
+
+create table User(
+    id int not null auto_increment,
+    username char(50) not null,
+    passwordHash char(100) not null,
+    roleID int not null,
+    deleteFlag bit default 0,
+    primary key(id)
+);
+
+create table Role(
+    id int not null auto_increment,
+    name char(50) not null,
+    primary key(id)
+);
+
+
+
+
+alter table Import add foreign key(providerID) references Provider(id);
+alter table Stock add foreign key(sizeID) references Size(id);
+alter table Shoes add foreign key(styleID) references ShoesType(id);
+alter table Shoes add foreign key(brandID) references ShoesBrand(id);
+alter table Shoes add foreign key(genderID) references Gender(id);
+alter table ImportDetail add foreign key(importID) references Import(id);
+alter table ImportDetail add foreign key(stockID) references Stock(id);
+alter table Stock add foreign key(shoesID) references Shoes(id);
+alter table ShoesImage add foreign key(shoesID) references Shoes(id);
+alter table CartItem add foreign key(stockID) references Stock(id);
+alter table CartItem add foreign key(cartID) references Cart(id);
+alter table OrderItem add foreign key(stockID) references Stock(id);
+alter table OrderItem add foreign key(orderID) references CustomerOrder(id);
+alter table SaleItem add foreign key(stockID) references Stock(id);
+alter table SaleItem add foreign key(saleID) references Sale(id);
+alter table Cart add foreign key(customerID) references Customer(id);
+alter table CustomerOrder add foreign key(customerID) references Customer(id);
+alter table CustomerOrder add foreign key(saleID) references Sale(id);
+alter table Address add foreign key(customerID) references Customer(id);
+alter table Customer add foreign key(genderID) references Gender(id);
+alter table Customer add foreign key(UserID) references User(id);
+alter table User add foreign key(roleID) references Role(id);
+
+Select * from ShoesBrand;
+Select * from ShoesType;
+
+INSERT INTO `Gender` (`id`, `name`)
+VALUES (1,'nam'),
+       (2,'nữ');
+
+INSERT INTO `ShoesBrand`
+(`name`,`country`)
+VALUES ('Adidas', 'USA'), ('Nike', 'USA'), ('Vans', 'USA'),('Converse', 'USA');
+
+INSERT INTO `Size`(`name`)
+VALUES
+('39'),('40'),('41'),('42'),('43'),('44');
+
+INSERT INTO `ShoesType`(`name`)
+VALUES ('Classic'),('Running'),('Training');
+
+
+
+INSERT INTO `Shoes`(`code`,`name`,`styleID`,`brandID`,`genderID`,`price`)
+VALUES  ('CT8919-700','Nike Women Zoom X Vista Grind',1,2,2,2000000),
+        ('AR3864-101','Nike Air Huarache Run DNA CH.1',2,2,1,4000000),
+        ('EG0589','Adidas Torsion X',3,1,1,5000000),
+        ('FY2903','Adidas Yeezy Boost 350 V2 (Cinder)',1,1,2,4000000),
+        ('EG6780','Adidas SL 7600',2,1,1,8000000),
+        ('EG6750','Adidas Nite Jogger',3,1,1,9000000),
+        ('167673F','Converse Chuck \'70 Low (Happy Camper)',1,4,1,11000000),
+        ('167663F','Converse Chuck Taylor All Star Low (Happy Camper)',2,4,1,15000000),
+        ('167632F','Converse Chuck Taylor All Star Low (Print)',3,4,2,10000000),
+        ('VN0A38GFXHH','Vans Sk8-Hi 38 DX (Anaheim Factory)',1,3,1,4000000),
+        ('VN0A38G2X7Y','Vans Old Skool 36 DX (Skulls) (Anaheim Factory)',1,3,2,5000000);
+
+
+INSERT INTO `ShoesImage`(`shoesID`,`imagePath`)
+VALUES  (1,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/nike-women-s-zoom-x-vista-grid-ct8919-700-1'),
+        (1,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/nike-women-s-zoom-x-vista-grid-ct8919-700-2'),
+        (1,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/nike-women-s-zoom-x-vista-grid-ct8919-700-3'),
+        (1,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/nike-women-s-zoom-x-vista-grid-ct8919-700-4'),
+        (1,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/nike-women-s-zoom-x-vista-grid-ct8919-700-5'),
+        (2,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/nike-air-huarache-run-dna-ch-1-ar3864-101-1'),
+        (2,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/nike-air-huarache-run-dna-ch-1-ar3864-101-2'),
+        (2,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/nike-air-huarache-run-dna-ch-1-ar3864-101-3'),
+        (2,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/nike-air-huarache-run-dna-ch-1-ar3864-101-4'),
+        (2,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/nike-air-huarache-run-dna-ch-1-ar3864-101-5'),
+        (3,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-torsion-x-eg0589-1'),
+        (3,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-torsion-x-eg0589-2'),
+        (3,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-torsion-x-eg0589-3'),
+        (3,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-torsion-x-eg0589-4'),
+        (3,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-torsion-x-eg0589-5'),
+        (4,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-yeezy-boost-350-v2-fy2903-1'),
+        (4,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-yeezy-boost-350-v2-fy2903-2'),
+        (4,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-yeezy-boost-350-v2-fy2903-3'),
+        (4,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-yeezy-boost-350-v2-fy2903-4'),
+        (4,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-yeezy-boost-350-v2-fy2903-5'),
+        (5,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-sl-7600-eg6780-1'),
+        (5,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-sl-7600-eg6780-2'),
+        (5,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-sl-7600-eg6780-3'),
+        (5,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-sl-7600-eg6780-4'),
+        (5,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-sl-7600-eg6780-5'),
+        (6,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-nite-jogger-eg6750-1'),
+        (6,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-nite-jogger-eg6750-2'),
+        (6,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-nite-jogger-eg6750-3'),
+        (6,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-nite-jogger-eg6750-4'),
+        (6,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-nite-jogger-eg6750-5'),
+        (7,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/converse-chuck-70-low-167673c-1'),
+        (7,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/converse-chuck-70-low-167673c-2'),
+        (7,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/converse-chuck-70-low-167673c-3'),
+        (7,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/converse-chuck-70-low-167673c-4'),
+        (7,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/converse-chuck-70-low-167673c-5'),
+        (8,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/converse-chuck-taylor-all-star-low-167663f-1'),
+        (8,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/converse-chuck-taylor-all-star-low-167663f-2'),
+        (8,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/converse-chuck-taylor-all-star-low-167663f-3'),
+        (8,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/converse-chuck-taylor-all-star-low-167663f-4'),
+        (8,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/converse-chuck-taylor-all-star-low-167663f-5'),
+        (9,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/converse-chuck-taylor-all-star-low-167632f-1'),
+        (9,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/converse-chuck-taylor-all-star-low-167632f-2'),
+        (9,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/converse-chuck-taylor-all-star-low-167632f-3'),
+        (9,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/converse-chuck-taylor-all-star-low-167632f-4'),
+        (9,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/converse-chuck-taylor-all-star-low-167632f-5'),
+        (10,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/vans-sk8-hi-38-dx-anaheim-factory-vn0a38gfxhh-1'),
+        (10,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/vans-sk8-hi-38-dx-anaheim-factory-vn0a38gfxhh-2'),
+        (10,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/vans-sk8-hi-38-dx-anaheim-factory-vn0a38gfxhh-3'),
+        (10,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/vans-sk8-hi-38-dx-anaheim-factory-vn0a38gfxhh-4'),
+        (10,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/vans-sk8-hi-38-dx-anaheim-factory-vn0a38gfxhh-5'),
+        (11,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/vans-old-skool-36-dx-anaheim-factory-vn0a38g2x7y-1'),
+        (11,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/vans-old-skool-36-dx-anaheim-factory-vn0a38g2x7y-2'),
+        (11,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/vans-old-skool-36-dx-anaheim-factory-vn0a38g2x7y-3'),
+        (11,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/vans-old-skool-36-dx-anaheim-factory-vn0a38g2x7y-4'),
+        (11,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/vans-old-skool-36-dx-anaheim-factory-vn0a38g2x7y-5');
+
+INSERT INTO `Stock`(`shoesID`,`sizeID`,`instock`)
+VALUES
+(1,3,76),
+(1,1,14),
+(1,2,32),
+(2,1,59),
+(2,4,60),
+(2,2,52),
+(2,3,11),
+(3,4,85),
+(3,6,35),
+(3,2,10),
+(3,1,18),
+(3,5,86),
+(4,1,28),
+(4,4,39),
+(4,5,21),
+(4,3,16),
+(5,1,46),
+(5,2,86),
+(5,3,9),
+(5,4,46),
+(5,5,25),
+(5,6,9),
+(6,3,58),
+(6,5,39),
+(6,4,52),
+(6,1,73),
+(6,2,35),
+(7,3,40),
+(8,5,85),
+(8,2,2),
+(8,3,61),
+(9,1,71),
+(9,3,40),
+(9,4,42),
+(10,6,25),
+(10,4,15),
+(10,3,75),
+(10,1,28),
+(10,2,30),
+(11,5,15),
+(11,4,18),
+(11,1,37),
+(11,3,41);
+
+UPDATE `shoesstore`.`shoes` SET `createDate` = '2020-05-10 15:55:29' WHERE (`id` = '1');
+UPDATE `shoesstore`.`shoes` SET `createDate` = '2020-05-11 15:55:29' WHERE (`id` = '2');
+UPDATE `shoesstore`.`shoes` SET `createDate` = '2020-04-14 15:55:29' WHERE (`id` = '3');
+UPDATE `shoesstore`.`shoes` SET `createDate` = '2020-04-19 15:55:29' WHERE (`id` = '4');
+UPDATE `shoesstore`.`shoes` SET `createDate` = '2020-04-11 15:55:29' WHERE (`id` = '5');
+UPDATE `shoesstore`.`shoes` SET `createDate` = '2020-03-26 15:55:29' WHERE (`id` = '6');
+UPDATE `shoesstore`.`shoes` SET `createDate` = '2020-03-12 15:55:29' WHERE (`id` = '7');
+UPDATE `shoesstore`.`shoes` SET `createDate` = '2019-09-12 15:55:29' WHERE (`id` = '8');
+UPDATE `shoesstore`.`shoes` SET `createDate` = '2020-01-12 15:55:29' WHERE (`id` = '9');

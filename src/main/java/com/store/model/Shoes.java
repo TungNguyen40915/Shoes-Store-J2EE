@@ -3,42 +3,50 @@ package com.store.model;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 
 @XmlRootElement(name = "shoes")
 @XmlAccessorType(XmlAccessType.FIELD)
-
 public class Shoes {
     private int id;
     private String code;
     private String name;
-    private int price;
-    private String remark;
-    private String img1;
-    private String img2;
-    private String img3;
-    private String img4;
-    private int quantity;
-    private int typeID;
+    private String description;
+    private float rating;
+    private int styleID;
+    private int brandID;
     private int genderID;
-    private boolean deleteFlag;
+    private int price;
+    private int isNew;
+    private int isOnSale;
+    private Date createDate;
+    private int deleteFlag;
 
     public Shoes() {
     }
 
-    public Shoes(int id, String code, String name, int price, String remark, String img1, String img2, String img3, String img4, int quantity, int typeID, int genderID, boolean deleteFlag) {
+    public Shoes(int id, String code, String name, String description, float rating, int styleID, int brandID, int genderID, int price, int isNew, int isOnSale, Date createDate, int deleteFlag) {
         this.id = id;
         this.code = code;
         this.name = name;
-        this.price = price;
-        this.remark = remark;
-        this.img1 = img1;
-        this.img2 = img2;
-        this.img3 = img3;
-        this.img4 = img4;
-        this.quantity = quantity;
-        this.typeID = typeID;
+        this.description = description;
+        this.rating = rating;
+        this.styleID = styleID;
+        this.brandID = brandID;
         this.genderID = genderID;
+        this.price = price;
+        this.isNew = isNew;
+        this.isOnSale = isOnSale;
+        this.createDate = createDate;
         this.deleteFlag = deleteFlag;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     public int getId() {
@@ -65,68 +73,36 @@ public class Shoes {
         this.name = name;
     }
 
-    public int getPrice() {
-        return price;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getRemark() {
-        return remark;
+    public float getRating() {
+        return rating;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
-    public String getImg1() {
-        return img1;
+    public int getStyleID() {
+        return styleID;
     }
 
-    public void setImg1(String img1) {
-        this.img1 = img1;
+    public void setStyleID(int styleID) {
+        this.styleID = styleID;
     }
 
-    public String getImg2() {
-        return img2;
+    public int getBrandID() {
+        return brandID;
     }
 
-    public void setImg2(String img2) {
-        this.img2 = img2;
-    }
-
-    public String getImg3() {
-        return img3;
-    }
-
-    public void setImg3(String img3) {
-        this.img3 = img3;
-    }
-
-    public String getImg4() {
-        return img4;
-    }
-
-    public void setImg4(String img4) {
-        this.img4 = img4;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public int getTypeID() {
-        return typeID;
-    }
-
-    public void setTypeID(int typeID) {
-        this.typeID = typeID;
+    public void setBrandID(int brandID) {
+        this.brandID = brandID;
     }
 
     public int getGenderID() {
@@ -137,11 +113,35 @@ public class Shoes {
         this.genderID = genderID;
     }
 
-    public boolean isDeleteFlag() {
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getIsNew() {
+        return isNew;
+    }
+
+    public void setIsNew(int isNew) {
+        this.isNew = isNew;
+    }
+
+    public int getIsOnSale() {
+        return isOnSale;
+    }
+
+    public void setIsOnSale(int isOnSale) {
+        this.isOnSale = isOnSale;
+    }
+
+    public int getDeleteFlag() {
         return deleteFlag;
     }
 
-    public void setDeleteFlag(boolean deleteFlag) {
+    public void setDeleteFlag(int deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
 }

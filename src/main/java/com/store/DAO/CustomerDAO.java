@@ -35,9 +35,7 @@ public class CustomerDAO {
         Customer customer = new Customer();
         customer.setId( rs.getInt("id") );
         customer.setName( rs.getString("name") );
-        customer.setAddress(rs.getString("address"));
         customer.setPhoneNumber(rs.getString("phoneNumber"));
-        customer.setUserId(rs.getInt("userID"));;
         return customer;
     }
 

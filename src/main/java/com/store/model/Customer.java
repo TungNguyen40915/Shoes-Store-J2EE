@@ -3,25 +3,43 @@ package com.store.model;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 
 @XmlRootElement(name = "customer")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Customer {
     private int id;
     private String name;
-    private String address;
+    private Date dateOfBirth;
+    private String email;
     private String phoneNumber;
-    private int userId;
+    private int genderID;
+    private int size;
+    private int userID;
+    private int deleteFlag;
+
+    public int getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(int deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
 
     public Customer() {
     }
 
-    public Customer(int id, String name, String address, String phoneNumber, int userId) {
+
+    public Customer(int id, String name, Date dateOfBirth, String email, String phoneNumber, int genderID, int size, int userID, int deleteFlag) {
         this.id = id;
         this.name = name;
-        this.address = address;
+        this.dateOfBirth = dateOfBirth;
+        this.email = email;
         this.phoneNumber = phoneNumber;
-        this.userId = userId;
+        this.genderID = genderID;
+        this.size = size;
+        this.userID = userID;
+        this.deleteFlag = deleteFlag;
     }
 
     public int getId() {
@@ -40,12 +58,20 @@ public class Customer {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    public Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPhoneNumber() {
@@ -56,11 +82,27 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getGenderID() {
+        return genderID;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setGenderID(int genderID) {
+        this.genderID = genderID;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 }
