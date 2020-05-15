@@ -6,4 +6,8 @@ public final class Constant {
     public static final String URL = "jdbc:mysql://localhost:3306/ShoesStore";
     public static final String USER = "root";
     public static final String PASS = "12345678";
+
+    //For JWT
+    public static final String AUTH_BEARER = "BEARER ";
+    public static final String AUTH_HEADER = "authorization";
 }
