@@ -11,25 +11,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerDAO {
+    private static Connection connection;
 
-    public static List<Customer> getAllCustomers() {
-        List<Customer> customers = new ArrayList<Customer>();
-        Connection connection = ConnectionFactory.getConnection();
+    public static int getCustomerIdByUserName(String username){
+        if(connection == null)
+            connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM customer");
+            String query = "select Id from Customer Where userID = (Select Id from ShoesStore.User Where username= \'"+ username + "\' limit 1);";
+            ResultSet rs = stmt.executeQuery(query);
             while(rs.next())
             {
-                Customer cus = extractCustomerFromResultSet(rs);
-                customers.add(cus);
+                return rs.getInt("Id");
             }
-            return customers;
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return null;
+        return -1;
     }
-
 
     private static Customer extractCustomerFromResultSet(ResultSet rs) throws SQLException {
         Customer customer = new Customer();

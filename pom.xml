@@ -30,50 +30,17 @@
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
-        <!--        <dependency>-->
-<!--            <groupId>javax.servlet</groupId>-->
-<!--            <artifactId>javax.servlet-api</artifactId>-->
-<!--            <version>4.0.1</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>javax.ws.rs</groupId>-->
-<!--            <artifactId>javax.ws.rs-api</artifactId>-->
-<!--            <version>2.1.1</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>javax.annotation</groupId>-->
-<!--            <artifactId>javax.annotation-api</artifactId>-->
-<!--            <version>1.3.2</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>jstl</groupId>-->
-<!--            <artifactId>jstl</artifactId>-->
-<!--            <version>1.2</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>javax.servlet.jsp.jstl</groupId>-->
-<!--            <artifactId>jstl-api</artifactId>-->
-<!--            <version>1.2</version>-->
-<!--        </dependency>-->
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.19</version>
         </dependency>
-
-
         <dependency>
             <groupId>asm</groupId>
             <artifactId>asm</artifactId>
             <version>3.3.1</version>
         </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>com.sun.jersey</groupId>-->
-<!--            <artifactId>jersey-bundle</artifactId>-->
-<!--            <version>1.18.1</version>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-server</artifactId>
@@ -106,19 +73,28 @@
             <artifactId>json</artifactId>
             <version>20160810</version>
         </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>com.sun.jersey</groupId>-->
-<!--            <artifactId>jersey-server</artifactId>-->
-<!--            <version>1.19.2</version>-->
-<!--        </dependency>-->
-
-
-<!--        <dependency>-->
-<!--            <groupId>com.sun.jersey</groupId>-->
-<!--            <artifactId>jersey-core</artifactId>-->
-<!--            <version>1.19.2</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.10.5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.10.5</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.10.5</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.8</version>
+        </dependency>
 
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
@@ -162,42 +138,7 @@
         </plugins>
     </build>
 
-<!--    <build>-->
-<!--        <finalName>ShoesStore</finalName>-->
-<!--        <pluginManagement>&lt;!&ndash; lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) &ndash;&gt;-->
-<!--            <plugins>-->
-<!--                <plugin>-->
-<!--                    <artifactId>maven-clean-plugin</artifactId>-->
-<!--                    <version>3.1.0</version>-->
-<!--                </plugin>-->
-<!--                &lt;!&ndash; see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging &ndash;&gt;-->
-<!--                <plugin>-->
-<!--                    <artifactId>maven-resources-plugin</artifactId>-->
-<!--                    <version>3.0.2</version>-->
-<!--                </plugin>-->
-<!--                <plugin>-->
-<!--                    <artifactId>maven-compiler-plugin</artifactId>-->
-<!--                    <version>3.8.0</version>-->
-<!--                </plugin>-->
-<!--                <plugin>-->
-<!--                    <artifactId>maven-surefire-plugin</artifactId>-->
-<!--                    <version>2.22.1</version>-->
-<!--                </plugin>-->
-<!--                <plugin>-->
-<!--                    <artifactId>maven-war-plugin</artifactId>-->
-<!--                    <version>3.2.2</version>-->
-<!--                </plugin>-->
-<!--                <plugin>-->
-<!--                    <artifactId>maven-install-plugin</artifactId>-->
-<!--                    <version>2.5.2</version>-->
-<!--                </plugin>-->
-<!--                <plugin>-->
-<!--                    <artifactId>maven-deploy-plugin</artifactId>-->
-<!--                    <version>2.8.2</version>-->
-<!--                </plugin>-->
-<!--            </plugins>-->
-<!--        </pluginManagement>-->
-<!--    </build>-->
+
 
 
 </project>

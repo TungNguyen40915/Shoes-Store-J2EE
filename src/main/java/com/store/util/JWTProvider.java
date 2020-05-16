@@ -2,16 +2,19 @@ package com.store.util;
 
 import io.jsonwebtoken.*;
 
+import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
+import java.security.Key;
 import java.util.Date;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class JWTProvider {
 
-    static private String jwtSecret = "JWT TOKEN SECRET";
-
-    static private int jwtExpiration = 100000000;
+    private static String jwtSecret = "JWT TOKEN SECRET";
+    private static int jwtExpiration = 1000000;
 
     static public String generateJwtToken(String username) {
-
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())

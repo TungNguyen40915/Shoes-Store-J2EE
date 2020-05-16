@@ -1,6 +1,7 @@
 package com.store.filter;
 
 import com.store.Annotation.LoginRequired;
+import com.store.DAO.UserDAO;
 import com.store.util.Constant;
 import com.store.util.JWTProvider;
 
@@ -37,7 +38,7 @@ public class LoginRequiredFilter implements ContainerRequestFilter
 
             String username = JWTProvider.getUserNameFromJwtToken(token);
 
-            //check if username is exist here, just to make sure
+            if(!UserDAO.checkIfUsernameExist(username)) throw new  Exception();
         }
         catch (Exception ex) {
             Response.ResponseBuilder builder = null;

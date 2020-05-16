@@ -1,5 +1,6 @@
 package com.store.controller;
 
+import com.store.Annotation.LoginRequired;
 import com.store.Converter.ShoesConverter;
 import com.store.DAO.ShoesDAO;
 import com.store.DTO.ShoesDTO;
@@ -20,6 +21,7 @@ public class ShoesController {
 
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @LoginRequired
     public Response getShoes(
             @QueryParam("gender") String gender,
             @QueryParam("new") String isNew,

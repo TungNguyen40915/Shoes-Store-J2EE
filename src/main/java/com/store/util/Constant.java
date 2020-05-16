@@ -8,6 +8,6 @@ public final class Constant {
     public static final String PASS = "12345678";
 
     //For JWT
-    public static final String AUTH_BEARER = "BEARER ";
+    public static final String AUTH_BEARER = "Bearer ";
     public static final String AUTH_HEADER = "authorization";
 }
