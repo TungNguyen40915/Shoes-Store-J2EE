@@ -5,17 +5,17 @@ ALTER DATABASE ShoesStore CHARACTER SET utf8 COLLATE utf8_general_ci;
 use ShoesStore;
 
 create table Provider(
-    id int not null auto_increment,
+	id int not null auto_increment,
     name char(100) not null,
     deleteFlag bit default 0,
-    primary key(id)
+	primary key(id)
 );
 
 create table Size(
     id int not null auto_increment,
     name char(100) not null,
     deleteFlag bit default 0,
-    primary key(id)
+	primary key(id)
 );
 
 
@@ -24,7 +24,7 @@ create table ShoesType(
     name char(100) not null,
     description char(100),
     deleteFlag bit default 0,
-    primary key(id)
+	primary key(id)
 );
 
 create table ShoesBrand(
@@ -32,13 +32,13 @@ create table ShoesBrand(
     name char(100) not null,
     country char(100),
     deleteFlag bit default 0,
-    primary key(id)
+	primary key(id)
 );
 
 create table Gender(
     id int not null auto_increment,
     name char(100) not null,
-    primary key(id)
+	primary key(id)
 );
 
 create table ShoesImage(
@@ -46,7 +46,7 @@ create table ShoesImage(
     shoesID int not null,
     imagePath char(200) not null,
     deleteFlag bit default 0,
-    primary key(id)
+	primary key(id)
 );
 
 create table Shoes(
@@ -56,6 +56,7 @@ create table Shoes(
     name char(100) not null,
     description char(100),
     rating float default 0,
+    ratingCount int default 0,
     styleID int not null,
     brandID int not null,
     genderID int not null,
@@ -63,11 +64,11 @@ create table Shoes(
     isNew bit default 0,
     isOnSale bit default 0,
     deleteFlag bit default 0,
-    primary key(id)
+	primary key(id)
 );
 
 create table Stock(
-    id int not null auto_increment,
+	id int not null auto_increment,
     shoesID int not null,
     sizeID int not null,
     instock int not null,
@@ -75,7 +76,7 @@ create table Stock(
 );
 
 create table Import(
-    id int not null auto_increment,
+	id int not null auto_increment,
     providerID int not null,
     importDate datetime not null,
     totalQuantity int not null,
@@ -85,7 +86,7 @@ create table Import(
 );
 
 create table ImportDetail(
-    id int not null auto_increment,
+	id int not null auto_increment,
     importID int not null,
     stockID int not null,
     quantity int not null,
@@ -95,13 +96,13 @@ create table ImportDetail(
 );
 
 create table Cart(
-    id int not null auto_increment,
+	id int not null auto_increment,
     customerID int not null,
     primary key(id)
 );
 
 create table CartItem(
-    id int not null auto_increment,
+	id int not null auto_increment,
     cartID int not null,
     stockID int not null,
     amount int not null,
@@ -111,10 +112,10 @@ create table CartItem(
 
 
 create table CustomerOrder(
-    id int not null auto_increment,
+	id int not null auto_increment,
     customerID int not null,
     orderDate datetime not null,
-    confirmDate datetime,
+	confirmDate datetime,
     deliveryDate datetime,
     total int not null,
     saleID int not null,
@@ -126,7 +127,7 @@ create table CustomerOrder(
 );
 
 create table OrderItem(
-    id int not null auto_increment,
+	id int not null auto_increment,
     orderID int not null,
     stockID int not null,
     amount int not null,
@@ -137,10 +138,10 @@ create table OrderItem(
 
 
 create table Sale(
-    id int not null auto_increment,
+	id int not null auto_increment,
     saleType char(10) not null,
     amount int not null,
-    startDate datetime not null,
+	startDate datetime not null,
     expiredDate datetime not null,
     status char(10) not null,
     deleteFlag bit default 0,
@@ -148,28 +149,28 @@ create table Sale(
 );
 
 create table SaleItem(
-    id int not null auto_increment,
+	id int not null auto_increment,
     saleID int not null,
-    stockID int not null,
+	stockID int not null,
     deleteFlag bit default 0,
     primary key(id)
 );
 
 create table Customer(
-    id int not null auto_increment,
+	id int not null auto_increment,
     name char(100) not null,
     dateOfBirth datetime,
     email char(30),
     phoneNumber char(10),
     genderID int,
     size char(100),
-    userID int not null,
+	userID int not null,
     deleteFlag bit default 0,
     primary key(id)
 );
 
 create table Address(
-    id int not null auto_increment,
+	id int not null auto_increment,
     customerID int not null,
     city char(100) not null,
     district char(100) not null,
@@ -179,19 +180,20 @@ create table Address(
 );
 
 create table User(
-    id int not null auto_increment,
+	id int not null auto_increment,
     username char(50) not null,
     passwordHash char(100) not null,
     roleID int not null,
     deleteFlag bit default 0,
-    primary key(id)
+	primary key(id)
 );
 
 create table Role(
-    id int not null auto_increment,
+	id int not null auto_increment,
     name char(50) not null,
-    primary key(id)
+	primary key(id)
 );
+
 
 
 
@@ -240,10 +242,10 @@ VALUES ('Classic'),('Running'),('Training');
 
 
 INSERT INTO `Shoes`(`code`,`name`,`styleID`,`brandID`,`genderID`,`price`)
-VALUES  ('CT8919-700','Nike Women Zoom X Vista Grind',1,2,2,2000000),
-        ('AR3864-101','Nike Air Huarache Run DNA CH.1',2,2,1,4000000),
-        ('EG0589','Adidas Torsion X',3,1,1,5000000),
-        ('FY2903','Adidas Yeezy Boost 350 V2 (Cinder)',1,1,2,4000000),
+VALUES 	('CT8919-700','Nike Women Zoom X Vista Grind',1,2,2,2000000),
+		('AR3864-101','Nike Air Huarache Run DNA CH.1',2,2,1,4000000),
+		('EG0589','Adidas Torsion X',3,1,1,5000000),
+		('FY2903','Adidas Yeezy Boost 350 V2 (Cinder)',1,1,2,4000000),
         ('EG6780','Adidas SL 7600',2,1,1,8000000),
         ('EG6750','Adidas Nite Jogger',3,1,1,9000000),
         ('167673F','Converse Chuck \'70 Low (Happy Camper)',1,4,1,11000000),
@@ -254,8 +256,8 @@ VALUES  ('CT8919-700','Nike Women Zoom X Vista Grind',1,2,2,2000000),
 
 
 INSERT INTO `ShoesImage`(`shoesID`,`imagePath`)
-VALUES  (1,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/nike-women-s-zoom-x-vista-grid-ct8919-700-1'),
-        (1,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/nike-women-s-zoom-x-vista-grid-ct8919-700-2'),
+VALUES 	(1,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/nike-women-s-zoom-x-vista-grid-ct8919-700-1'),
+		(1,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/nike-women-s-zoom-x-vista-grid-ct8919-700-2'),
         (1,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/nike-women-s-zoom-x-vista-grid-ct8919-700-3'),
         (1,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/nike-women-s-zoom-x-vista-grid-ct8919-700-4'),
         (1,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/nike-women-s-zoom-x-vista-grid-ct8919-700-5'),
@@ -269,7 +271,7 @@ VALUES  (1,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/ima
         (3,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-torsion-x-eg0589-3'),
         (3,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-torsion-x-eg0589-4'),
         (3,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-torsion-x-eg0589-5'),
-        (4,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-yeezy-boost-350-v2-fy2903-1'),
+        (4,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail-20?$sn20-650$&$img=sneakerhead/adidas-yeezy-boost-350-v2-fy2903-1'),
         (4,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-yeezy-boost-350-v2-fy2903-2'),
         (4,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-yeezy-boost-350-v2-fy2903-3'),
         (4,'https://a248.e.akamai.net/f/248/9086/10h/origin-d5.scene7.com/is/image/sneakerhead/snusa-detail_20?$sn20-650$&$img=sneakerhead/adidas-yeezy-boost-350-v2-fy2903-4'),
@@ -365,3 +367,30 @@ UPDATE `shoesstore`.`shoes` SET `createDate` = '2020-03-26 15:55:29' WHERE (`id`
 UPDATE `shoesstore`.`shoes` SET `createDate` = '2020-03-12 15:55:29' WHERE (`id` = '7');
 UPDATE `shoesstore`.`shoes` SET `createDate` = '2019-09-12 15:55:29' WHERE (`id` = '8');
 UPDATE `shoesstore`.`shoes` SET `createDate` = '2020-01-12 15:55:29' WHERE (`id` = '9');
+
+INSERT INTO `ShoesStore`.`Role` (`name`)
+VALUES("GUEST"),("ADMIN");
+
+INSERT INTO `ShoesStore`.`User` (`username`,`passwordHash`,`roleID`)
+VALUES ("aaa","1234",1),("bbb","1234",1);
+
+
+INSERT INTO `ShoesStore`.`Customer`(`name`,`email`,`phoneNumber`,`genderID`,`userID`)
+VALUES ("Nguyen Van A","a@gmail.com","09090909",1,1),("Nguyen Van B","b@gmail.com","09090909",1,2);
+
+
+INSERT INTO `ShoesStore`.`Cart`(`customerID`)
+VALUES(1),(2);
+
+INSERT INTO `ShoesStore`.`CartItem`(`cartID`,`stockID`,`amount`)
+VALUES(1,1,2),(1,2,2),(1,4,7),(2,5,4),(2,8,1),(2,1,1);
+
+
+
+
+
+
+
+
+
+

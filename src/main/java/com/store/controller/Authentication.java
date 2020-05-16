@@ -13,7 +13,6 @@ public class Authentication {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-
     public Response authenticateUser(@FormParam("username") String username,
                                      @FormParam("password") String password) {
 
