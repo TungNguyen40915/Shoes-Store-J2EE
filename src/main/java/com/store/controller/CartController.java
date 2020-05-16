@@ -6,16 +6,17 @@ import com.store.DAO.CartDAO;
 import com.store.DAO.SizeDAO;
 import com.store.DAO.StockDAO;
 import com.store.DTO.CartItemDTO;
-import com.store.DTO.UpdateCartItem;
+import com.store.RequestModel.CartAddModel;
+import com.store.RequestModel.CartUpdateModel;
 import com.store.model.CartItem;
 import com.store.model.Response;
 import com.store.util.Constant;
 import com.store.util.JWTProvider;
-import com.store.util.Util;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import javax.ws.rs.*;
 import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,22 +31,19 @@ public class CartController {
     @LoginRequired
     @Path("/add")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response addItemToCart(
-            @FormParam("shoesId") int shoesId,
-            @FormParam("size") String sizeName,
-            @FormParam("quantity") int quantity,
-            ContainerRequestContext requestContext) {
+            CartAddModel cart,
+            @Context ContainerRequestContext requestContext) {
         String token = requestContext.getHeaderString(Constant.AUTH_HEADER).substring(Constant.AUTH_BEARER.length());
         String username = JWTProvider.getUserNameFromJwtToken(token);
         Response res = new Response();
         try {
-            int stockId = StockDAO.getStockByShoesIDAndSizeID(shoesId, SizeDAO.getSizeID(sizeName)).getId();
+            int stockId = StockDAO.getStockByShoesIDAndSizeID(cart.getShoesId(), SizeDAO.getSizeID(cart.getSizeName())).getId();
             List<CartItem> items = new ArrayList<CartItem>();
             List<CartItemDTO> itemDTOS = new ArrayList<CartItemDTO>();
             res.setCode("OK");
             res.setMsg("Item inserted Successfully");
-            items = CartDAO.addItemToCart(username,stockId,quantity);
+            items = CartDAO.addItemToCart(username,stockId,cart.getQuantity());
             for (CartItem s: items) {
                 itemDTOS.add(CartConverter.ConvertCartItemEntityToCartItemDTO(s));
             }
@@ -66,17 +64,16 @@ public class CartController {
     @LoginRequired
     @Path("/update")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response updateCartItem(
-            @FormParam("list") String list,
-            ContainerRequestContext requestContext) {
+            CartUpdateModel[] cartItems,
+            @Context ContainerRequestContext requestContext) {
 
         String token = requestContext.getHeaderString(Constant.AUTH_HEADER).substring(Constant.AUTH_BEARER.length());
         String username = JWTProvider.getUserNameFromJwtToken(token);
-        List<UpdateCartItem> updateCartItems = Util.handleConvertLisUpdateItem(list);
+        //List<UpdateCartItem> updateCartItems = Util.handleConvertLisUpdateItem(list);
         Response res = new Response();
         try {
-            for (UpdateCartItem u: updateCartItems) {
+            for (CartUpdateModel u: cartItems) {
                 CartDAO.updateCart(username,u.getStockId(),u.getQuantity());
             }
             List<CartItem> items = CartDAO.getAllCartItemsByCartId(CartDAO.getCartIdByUserName(username));

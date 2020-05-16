@@ -1,24 +1,23 @@
 package com.store.controller;
 
 import com.store.DAO.UserDAO;
+import com.store.RequestModel.LoginModel;
 import com.store.util.JWTProvider;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+
 import com.store.model.Response;
 
 @Path("/authentication")
 public class Authentication {
-
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response authenticateUser(@FormParam("username") String username,
-                                     @FormParam("password") String password) {
+    public Response authenticateUser(LoginModel user) {
 
         try {
-            authenticate(username, password);
-            String token = issueToken(username);
+            authenticate(user.getUsername(), user.getPassword());
+            String token = issueToken(user.getUsername());
             return new Response("200","Login successfully","AuthorizedToken: " + token,1);
 
         } catch (Exception e) {
