@@ -55,6 +55,10 @@ public class ShoesDAO {
         return 0;
     }
 
+    public static boolean ratingShoes(){
+        return true;
+    }
+
 
     public static Shoes getShoesById(int id){
         if(connection == null)
@@ -88,6 +92,7 @@ public class ShoesDAO {
         shoes.setIsOnSale(rs.getInt("isOnSale"));
         shoes.setCreateDate(rs.getDate("createDate"));
         shoes.setDeleteFlag(rs.getInt("deleteFlag"));
+        shoes.setRatingCount(rs.getInt("ratingCount"));
         return shoes;
     }
 

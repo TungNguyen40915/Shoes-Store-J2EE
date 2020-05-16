@@ -9,6 +9,7 @@ public class ShoesDetailDTO {
     private String name;
     private String description;
     private float rating;
+    private float ratingCount;
     private String styleName;
     private String brandName;
     private String genderName;
@@ -22,12 +23,13 @@ public class ShoesDetailDTO {
     public ShoesDetailDTO() {
     }
 
-    public ShoesDetailDTO(int id, String code, String name, String description, float rating, String styleName, String brandName, String genderName, int price, int isNew, int isOnSale, int salePrice, List<String> images, List<String> sizes) {
+    public ShoesDetailDTO(int id, String code, String name, String description, float rating, float ratingCount, String styleName, String brandName, String genderName, int price, int isNew, int isOnSale, int salePrice, List<String> images, List<String> sizes) {
         this.id = id;
         this.code = code;
         this.name = name;
         this.description = description;
         this.rating = rating;
+        this.ratingCount = ratingCount;
         this.styleName = styleName;
         this.brandName = brandName;
         this.genderName = genderName;
@@ -37,6 +39,14 @@ public class ShoesDetailDTO {
         this.salePrice = salePrice;
         this.images = images;
         this.sizes = sizes;
+    }
+
+    public float getRatingCount() {
+        return ratingCount;
+    }
+
+    public void setRatingCount(float ratingCount) {
+        this.ratingCount = ratingCount;
     }
 
     public int getId() {

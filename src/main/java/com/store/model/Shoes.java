@@ -13,6 +13,7 @@ public class Shoes {
     private String name;
     private String description;
     private float rating;
+    private int ratingCount;
     private int styleID;
     private int brandID;
     private int genderID;
@@ -25,12 +26,13 @@ public class Shoes {
     public Shoes() {
     }
 
-    public Shoes(int id, String code, String name, String description, float rating, int styleID, int brandID, int genderID, int price, int isNew, int isOnSale, Date createDate, int deleteFlag) {
+    public Shoes(int id, String code, String name, String description, float rating, int ratingCount, int styleID, int brandID, int genderID, int price, int isNew, int isOnSale, Date createDate, int deleteFlag) {
         this.id = id;
         this.code = code;
         this.name = name;
         this.description = description;
         this.rating = rating;
+        this.ratingCount = ratingCount;
         this.styleID = styleID;
         this.brandID = brandID;
         this.genderID = genderID;
@@ -39,6 +41,14 @@ public class Shoes {
         this.isOnSale = isOnSale;
         this.createDate = createDate;
         this.deleteFlag = deleteFlag;
+    }
+
+    public int getRatingCount() {
+        return ratingCount;
+    }
+
+    public void setRatingCount(int ratingCount) {
+        this.ratingCount = ratingCount;
     }
 
     public Date getCreateDate() {

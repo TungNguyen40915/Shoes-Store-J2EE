@@ -1,14 +1,23 @@
 package com.store.controller;
 
 import com.store.Annotation.LoginRequired;
+import com.store.Converter.CartConverter;
 import com.store.Converter.ShoesConverter;
+import com.store.DAO.CartDAO;
 import com.store.DAO.ShoesDAO;
+import com.store.DTO.CartItemDTO;
 import com.store.DTO.ShoesDTO;
+import com.store.DTO.UpdateCartItem;
+import com.store.model.CartItem;
 import com.store.model.Response;
 import com.store.model.Shoes;
+import com.store.util.Constant;
+import com.store.util.JWTProvider;
+import com.store.util.Util;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import javax.ws.rs.*;
+import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,6 +82,31 @@ public class ShoesController {
         } catch (IOException e) {
             e.printStackTrace();
             res.setData("[]");
+        }
+        return res;
+    }
+
+    @POST
+    @LoginRequired
+    @Path("/rating")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response updateCartItem(
+            @FormParam("shoesId") int shoesId,
+            @FormParam("rating") int rating) {
+
+        Response res = new Response();
+        try {
+            res.setCode("OK");
+            res.setMsg("Updated Successfully");
+            res.setData("{}");
+            res.setTotalRecords(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res.setCode("FAIL");
+            res.setMsg("Something Went Wrong");
+            res.setData("[]");
+            res.setTotalRecords(0);
         }
         return res;
     }
