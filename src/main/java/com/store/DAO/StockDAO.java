@@ -72,6 +72,24 @@ public class StockDAO {
         return null;
     }
 
+    public static Stock getStockByShoesIDAndSizeID(int shoesId, int sizeId){
+        if(connection == null)
+            connection = ConnectionFactory.getConnection();
+        try {
+            Statement stmt = connection.createStatement();
+            String query = "select * from Stock Where shoesID = " + shoesId + " AND sizeID = " + sizeId ;
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next())
+            {
+                return extractStockFromResultSet(rs);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
+    }
+
     private static Stock extractStockFromResultSet(ResultSet rs) throws SQLException {
         Stock stock = new Stock();
         stock.setId(rs.getInt("id"));

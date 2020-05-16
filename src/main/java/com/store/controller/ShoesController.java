@@ -21,7 +21,6 @@ public class ShoesController {
 
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @LoginRequired
     public Response getShoes(
             @QueryParam("gender") String gender,
             @QueryParam("new") String isNew,

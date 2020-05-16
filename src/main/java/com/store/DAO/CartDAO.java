@@ -38,19 +38,19 @@ public class CartDAO {
         return cartItem;
     }
 
-    public static List<CartItem> updateCart(String username, int stockId, int quantity) {
+    public static void updateCart(String username, int stockId, int quantity) {
         if (connection == null)
             connection = ConnectionFactory.getConnection();
         int cartId = getCartIdByUserName(username);
 
         if (quantity == 0) {
-            return deleteCartItem(cartId, stockId);
+            deleteCartItem(cartId, stockId);
         } else {
-            return updateCartItem(cartId, stockId, quantity);
+            updateCartItem(cartId, stockId, quantity);
         }
     }
 
-    private static List<CartItem> deleteCartItem(int cartId, int stockId) {
+    private static void deleteCartItem(int cartId, int stockId) {
         if (connection == null)
             connection = ConnectionFactory.getConnection();
         String SQL = "DELETE FROM CartItem where cartID=? AND stockID=?";
@@ -59,14 +59,12 @@ public class CartDAO {
             pstmt.setString(1, String.valueOf(cartId));
             pstmt.setString(2, String.valueOf(stockId));
             pstmt.executeUpdate();
-            return getAllCartItemsByCartId(cartId);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return new ArrayList<CartItem>();
     }
 
-    private static List<CartItem> updateCartItem(int cartId, int stockId, int quantity) {
+    private static void updateCartItem(int cartId, int stockId, int quantity) {
         if (connection == null)
             connection = ConnectionFactory.getConnection();
         String SQL = "UPDATE CartItem SET amount= ? where cartID=? AND stockID=?";
@@ -77,12 +75,10 @@ public class CartDAO {
             pstmt.setString(3, String.valueOf(stockId));
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
-                return getAllCartItemsByCartId(cartId);
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return new ArrayList<CartItem>();
     }
 
     public static List<CartItem> addItemToCart(String username, int stockId, int quantity) {
