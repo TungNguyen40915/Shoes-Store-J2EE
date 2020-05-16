@@ -1,9 +1,5 @@
 package com.store.DTO;
-import org.codehaus.jackson.map.ObjectMapper;
-
-import javax.ws.rs.WebApplicationException;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.IOException;
 
 @XmlRootElement
 public class UpdateCartItem {

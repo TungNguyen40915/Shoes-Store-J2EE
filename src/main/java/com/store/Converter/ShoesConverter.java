@@ -43,6 +43,7 @@ public class ShoesConverter {
         shoesDetailDTO.setIsOnSale(shoes.getIsOnSale());
         shoesDetailDTO.setSizes(StockDAO.getAllSizeByShoesID(shoes.getId()));
         shoesDetailDTO.setImages(ShoesImageDAO.getAllImagesById(shoes.getId()));
+        shoesDetailDTO.setRatingCount(shoes.getRatingCount());
         if(shoes.getIsOnSale() == 0) shoesDetailDTO.setSalePrice(shoes.getPrice());
         else {
             //hanle sale
