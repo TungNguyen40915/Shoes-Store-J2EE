@@ -39,7 +39,7 @@ public class ShoesController {
             @QueryParam("style") String style,
             @QueryParam("brand") String brand,
             @QueryParam("search") String search,
-            @QueryParam("size") String pageSize
+            @QueryParam("page-size") String pageSize
     ) {
         Response res = new Response();
         res.setCode("OK");
@@ -92,14 +92,15 @@ public class ShoesController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response updateCartItem(
-            @FormParam("shoesId") int shoesId,
-            @FormParam("rating") int rating) {
+            @FormParam("id") int shoesId,
+            @FormParam("rating") float rating) {
 
         Response res = new Response();
         try {
             res.setCode("OK");
             res.setMsg("Updated Successfully");
-            res.setData("{}");
+            Shoes shoes = ShoesDAO.ratingShoes(shoesId,rating);
+            res.setData(mapper.writeValueAsString(ShoesConverter.ConvertShoesEntityToShoesDetailDTO(shoes)));
             res.setTotalRecords(0);
         } catch (Exception e) {
             e.printStackTrace();

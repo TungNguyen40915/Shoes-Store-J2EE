@@ -1,12 +1,10 @@
 package com.store.DAO;
 
 import com.store.model.Shoes;
+import com.store.model.Stock;
 import com.store.util.ConnectionFactory;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,8 +53,29 @@ public class ShoesDAO {
         return 0;
     }
 
-    public static boolean ratingShoes(){
-        return true;
+    public static Shoes ratingShoes(int id, float rating ){
+        if (connection == null)
+            connection = ConnectionFactory.getConnection();
+
+        Shoes shoes = getShoesById(StockDAO.getStockById(id).getShoesID());
+
+        int updatedRatingCount = shoes.getRatingCount() + 1;
+        float updatedRating = (shoes.getRating() + rating) / updatedRatingCount;
+
+        String SQL = "UPDATE Shoes SET rating = ?, ratingCount = ? where id= ?;";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setString(1, String.valueOf(updatedRating));
+            pstmt.setString(2, String.valueOf(updatedRatingCount));
+            pstmt.setString(3, String.valueOf(id));
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                return ShoesDAO.getShoesById(shoes.getId());
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return null;
     }
 
 
@@ -76,6 +95,8 @@ public class ShoesDAO {
         }
         return null;
     }
+
+
 
     private static Shoes extractShoesFromResultSet(ResultSet rs) throws SQLException {
         Shoes shoes = new Shoes();

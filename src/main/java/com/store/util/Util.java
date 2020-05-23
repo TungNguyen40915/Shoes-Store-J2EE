@@ -13,21 +13,4 @@ public class Util {
         //TODO
         return password + "_HASHED";
     }
-
-    static public List<UpdateCartItem> handleConvertLisUpdateItem(String s) {
-        String[] subString = s.split(",");
-        ObjectMapper mapper = new ObjectMapper(); //Jackson's JSON marshaller
-        List<UpdateCartItem> updateCartItems = new ArrayList<UpdateCartItem>();
-        UpdateCartItem temp = null;
-        try {
-            for (int i = 0; i < subString.length; i+=2) {
-                temp = mapper.readValue(subString[i]+","+subString[i+1], UpdateCartItem.class);
-                updateCartItems.add(temp);
-            }
-        } catch (IOException e) {
-            throw new WebApplicationException();
-        }
-
-        return updateCartItems;
-    }
 }

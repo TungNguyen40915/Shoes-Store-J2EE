@@ -21,6 +21,7 @@ public class CartConverter {
         itemDTO.setStockId(item.getStockID());
         itemDTO.setImage(ShoesImageDAO.getImage(shoes.getId()));
         itemDTO.setSizeName(SizeDAO.getSizeName(stock.getSizeID()));
+        itemDTO.setShoesId(stock.getShoesID());
 
         if(shoes.getIsOnSale() == 1){
             //hanlde on sale price

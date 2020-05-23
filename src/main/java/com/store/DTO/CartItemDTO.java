@@ -2,6 +2,7 @@ package com.store.DTO;
 
 public class CartItemDTO {
     private int stockId;
+    private int shoesId;
     private String name;
     private String sizeName;
     private int quantity;
@@ -9,6 +10,24 @@ public class CartItemDTO {
     private String image;
 
     public CartItemDTO() {
+    }
+
+    public CartItemDTO(int stockId, int shoesId, String name, String sizeName, int quantity, int price, String image) {
+        this.stockId = stockId;
+        this.shoesId = shoesId;
+        this.name = name;
+        this.sizeName = sizeName;
+        this.quantity = quantity;
+        this.price = price;
+        this.image = image;
+    }
+
+    public int getShoesId() {
+        return shoesId;
+    }
+
+    public void setShoesId(int shoesId) {
+        this.shoesId = shoesId;
     }
 
     public String getImage() {

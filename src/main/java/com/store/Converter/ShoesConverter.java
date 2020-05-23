@@ -18,6 +18,7 @@ public class ShoesConverter {
         shoesDTO.setIsOnSale(shoes.getIsOnSale());
         shoesDTO.setImagePath(ShoesImageDAO.getImage(shoes.getId()));
         shoesDTO.setQuantity(StockDAO.getTotalQuantity(shoes.getId()));
+        shoesDTO.setStyleName(ShoesStyleDAO.getStyleName(shoes.getStyleID()));
 
         if(shoes.getIsOnSale() == 0) shoesDTO.setSalePrice(shoes.getPrice());
         else {

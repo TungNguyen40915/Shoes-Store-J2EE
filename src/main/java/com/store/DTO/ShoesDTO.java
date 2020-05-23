@@ -12,11 +12,12 @@ public class ShoesDTO {
     private String imagePath;
     private int quantity;
     private int salePrice;
+    private String styleName;
 
     public ShoesDTO() {
     }
 
-    public ShoesDTO(int id, String name, String description, int price, int isNew, int isOnSale, String imagePath, int quantity, int salePrice) {
+    public ShoesDTO(int id, String name, String description, int price, int isNew, int isOnSale, String imagePath, int quantity, int salePrice, String styleName) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -26,6 +27,15 @@ public class ShoesDTO {
         this.imagePath = imagePath;
         this.quantity = quantity;
         this.salePrice = salePrice;
+        this.styleName = styleName;
+    }
+
+    public String getStyleName() {
+        return styleName;
+    }
+
+    public void setStyleName(String styleName) {
+        this.styleName = styleName;
     }
 
     public int getId() {
