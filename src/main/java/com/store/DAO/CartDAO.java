@@ -142,10 +142,27 @@ public class CartDAO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
         return -1;
     }
 
+    public static int getCartIdByUserId(int customerId) {
+        if (connection == null)
+            connection = ConnectionFactory.getConnection();
+        try {
+            if (customerId != -1) {
+                Statement stmt = connection.createStatement();
+                String query = "select id from Cart Where customerID = " + customerId;
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    return rs.getInt("id");
+                }
+                return createCart(customerId);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return -1;
+    }
     private static int createCart(int customerId) {
         String SQL = "INSERT INTO Cart(customerID)  VALUES(?)";
         int id = -1;

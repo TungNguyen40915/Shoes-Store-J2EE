@@ -1,9 +1,7 @@
 package com.store.Converter;
 
 import com.store.DAO.GenderDAO;
-import com.store.DTO.CartItemDTO;
 import com.store.DTO.CustomerDTO;
-import com.store.model.CartItem;
 import com.store.model.Customer;
 
 public class CustomerConverter {
@@ -18,4 +16,5 @@ public class CustomerConverter {
         customerDTO.setName(customer.getName());
         return customerDTO;
     }
+
 }

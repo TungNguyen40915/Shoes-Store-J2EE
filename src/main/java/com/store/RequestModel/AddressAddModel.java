@@ -1,19 +1,22 @@
-package com.store.DTO;
+package com.store.RequestModel;
 
-public class AddressDTO {
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement()
+public class AddressAddModel {
     private String city;
     private String district;
     private String ward;
     private String street;
 
-    public AddressDTO(String city, String district, String ward, String street) {
+    public AddressAddModel() {
+    }
+
+    public AddressAddModel(String city, String district, String ward, String street) {
         this.city = city;
         this.district = district;
         this.ward = ward;
         this.street = street;
-    }
-
-    public AddressDTO() {
     }
 
     public String getCity() {

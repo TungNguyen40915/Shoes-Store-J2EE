@@ -6,6 +6,7 @@ import com.store.Converter.CustomerConverter;
 import com.store.Converter.ShoesConverter;
 import com.store.DAO.OrderDAO;
 import com.store.DAO.ShoesDAO;
+import com.store.RequestModel.AddressAddModel;
 import com.store.RequestModel.CustomerUpdateModel;
 import com.store.model.Address;
 import com.store.model.Customer;
@@ -117,6 +118,30 @@ public class CustomerController {
         return res;
     }
 
+    @POST
+    @LoginRequired
+    @Path("/add-address")
+    @Produces({ MediaType.APPLICATION_JSON })
+    public Response addAddress(
+            AddressAddModel addressAddModel,
+            @Context ContainerRequestContext requestContext
+    ) {
+        String token = requestContext.getHeaderString(Constant.AUTH_HEADER).substring(Constant.AUTH_BEARER.length());
+        String username = JWTProvider.getUserNameFromJwtToken(token);
+        List<Address> list = OrderDAO.addAddress(username, addressAddModel);
+        Response res = new Response();
+        res.setCode("OK");
+        res.setMsg("Get Data Successfully");
+        try {
+            res.setTotalRecords(list.size());
+            res.setData(mapper.writeValueAsString(list));
+        } catch (IOException e) {
+            e.printStackTrace();
+            res.setTotalRecords(0);
+            res.setData("[]");
+        }
+        return res;
+    }
 
 
 

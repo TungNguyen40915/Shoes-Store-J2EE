@@ -114,10 +114,9 @@ create table CartItem(
 create table CustomerOrder(
 	id int not null auto_increment,
     customerID int not null,
-    orderDate datetime not null,
-	confirmDate datetime,
-    deliveryDate datetime,
-    total int not null,
+    orderDate timestamp default now(),
+	confirmDate timestamp,
+    deliveryDate timestamp,
     saleID int not null,
     status char(20) not null,
     paymentStatus char(20) not null,
@@ -385,6 +384,13 @@ VALUES(1),(2);
 INSERT INTO `ShoesStore`.`CartItem`(`cartID`,`stockID`,`amount`)
 VALUES(1,1,2),(1,2,2),(1,4,7),(2,5,4),(2,8,1),(2,1,1);
 
+INSERT INTO `ShoesStore`.`Address` (`customerID`, `city`, `district`, `ward`, `street`)
+VALUES  ('1', 'Tp.HCM', '7', 'Phú Thuận', 'Huỳnh Tấn Phát'),
+		('1', 'Tp.HCM', '8', 'Phú Thuận', 'Huỳnh Tấn Phát'),
+        ('1', 'Tp.HCM', '9', 'Phú Thuận', 'Huỳnh Tấn Phát'),
+        ('2', 'Hà Nội', 'Ba Đình', 'ABC','DEF');
+
+INSERT INTO `ShoesStore`.`Sale` (`saleType`, `amount`, `startDate`, `expiredDate`, `status`) VALUES ('No', '0', '2020/01/01', '2020/01/01', 'ACTIVE');
 
 
 
