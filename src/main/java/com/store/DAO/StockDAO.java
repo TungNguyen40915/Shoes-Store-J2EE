@@ -1,5 +1,6 @@
 package com.store.DAO;
 
+import com.store.DTO.ShoesSizeDTO;
 import com.store.model.CartItem;
 import com.store.model.Size;
 import com.store.model.Stock;
@@ -33,20 +34,21 @@ public class StockDAO {
     }
 
 
-    public static List<String> getAllSizeByShoesID(int id){
-        List<String> list = new ArrayList<String>();
+    public static List<ShoesSizeDTO> getAllSizeByShoesID(int id){
+        List<ShoesSizeDTO> list = new ArrayList<ShoesSizeDTO>();
         String temp = "";
         if(connection == null)
             connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
-            String query = "select sizeID from Stock Where instock > 0 AND shoesID =" + id;
+            String query = "select id,sizeID from Stock Where instock > 0 AND shoesID =" + id;
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next())
             {
                 temp = SizeDAO.getSizeName(rs.getInt("sizeID"));
+                int stockId = rs.getInt("id");
                 if(temp != "")
-                    list.add(temp);
+                    list.add(new ShoesSizeDTO(stockId,temp));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

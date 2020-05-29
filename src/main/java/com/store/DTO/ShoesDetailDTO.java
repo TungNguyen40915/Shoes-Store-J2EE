@@ -18,12 +18,12 @@ public class ShoesDetailDTO {
     private int isOnSale;
     private int salePrice;
     private List<String> images;
-    private List<String> sizes;
+    private List<ShoesSizeDTO> sizes;
 
     public ShoesDetailDTO() {
     }
 
-    public ShoesDetailDTO(int id, String code, String name, String description, float rating, float ratingCount, String styleName, String brandName, String genderName, int price, int isNew, int isOnSale, int salePrice, List<String> images, List<String> sizes) {
+    public ShoesDetailDTO(int id, String code, String name, String description, float rating, float ratingCount, String styleName, String brandName, String genderName, int price, int isNew, int isOnSale, int salePrice, List<String> images, List<ShoesSizeDTO> sizes) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -153,11 +153,11 @@ public class ShoesDetailDTO {
         this.images = images;
     }
 
-    public List<String> getSizes() {
+    public List<ShoesSizeDTO> getSizes() {
         return sizes;
     }
 
-    public void setSizes(List<String> sizes) {
+    public void setSizes(List<ShoesSizeDTO> sizes) {
         this.sizes = sizes;
     }
 }
