@@ -1,6 +1,7 @@
 package com.store.DAO;
 
 import com.store.RequestModel.AddressAddModel;
+import com.store.RequestModel.UpdateAddressModel;
 import com.store.model.*;
 import com.store.util.ConnectionFactory;
 
@@ -67,6 +68,31 @@ public class OrderDAO {
             preparedStatement.setString(6,String.valueOf(addressAddModel.getName()));
             preparedStatement.setString(7,String.valueOf(addressAddModel.getPhoneNumber()));
 
+
+            int row = preparedStatement.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return getCustomerAddressByUserName(username);
+    }
+
+    public static List<Address> updateAddress(String username, UpdateAddressModel updateAddressModel){
+        if(connection == null)
+            connection = ConnectionFactory.getConnection();
+        int id = CustomerDAO.getCustomerIdByUserName(username);
+
+        try {
+            String query = "UPDATE address SET city=?,district=?,ward=?,street=?,recipientName=?,recipientPhoneNumber=? where id=?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1,String.valueOf(updateAddressModel.getCity()));
+            preparedStatement.setString(2,String.valueOf(updateAddressModel.getDistrict()));
+            preparedStatement.setString(3,String.valueOf(updateAddressModel.getWard()));
+            preparedStatement.setString(4,String.valueOf(updateAddressModel.getStreet()));
+            preparedStatement.setString(5,String.valueOf(updateAddressModel.getName()));
+            preparedStatement.setString(6,String.valueOf(updateAddressModel.getPhoneNumber()));
+            preparedStatement.setString(7,String.valueOf(updateAddressModel.getId()));
 
             int row = preparedStatement.executeUpdate();
 

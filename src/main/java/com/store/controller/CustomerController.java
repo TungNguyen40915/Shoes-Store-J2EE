@@ -8,6 +8,7 @@ import com.store.DAO.OrderDAO;
 import com.store.DAO.ShoesDAO;
 import com.store.RequestModel.AddressAddModel;
 import com.store.RequestModel.CustomerUpdateModel;
+import com.store.RequestModel.UpdateAddressModel;
 import com.store.model.Address;
 import com.store.model.Customer;
 import com.store.DAO.CustomerDAO;
@@ -130,6 +131,32 @@ public class CustomerController {
         String token = requestContext.getHeaderString(Constant.AUTH_HEADER).substring(Constant.AUTH_BEARER.length());
         String username = JWTProvider.getUserNameFromJwtToken(token);
         List<Address> list = OrderDAO.addAddress(username, addressAddModel);
+        Response res = new Response();
+        res.setCode("OK");
+        res.setMsg("Get Data Successfully");
+        try {
+            res.setTotalRecords(list.size());
+            res.setData(mapper.writeValueAsString(list));
+        } catch (IOException e) {
+            e.printStackTrace();
+            res.setTotalRecords(0);
+            res.setData("[]");
+        }
+        return res;
+    }
+
+    @POST
+    @LoginRequired
+    @Path("/update-address")
+    @Produces({ MediaType.APPLICATION_JSON })
+    public Response addAddress(
+            UpdateAddressModel model,
+            @Context ContainerRequestContext requestContext
+    ) {
+        String token = requestContext.getHeaderString(Constant.AUTH_HEADER).substring(Constant.AUTH_BEARER.length());
+        String username = JWTProvider.getUserNameFromJwtToken(token);
+        // TODO: check if this address belongs to this user
+        List<Address> list = OrderDAO.updateAddress(username,model);
         Response res = new Response();
         res.setCode("OK");
         res.setMsg("Get Data Successfully");

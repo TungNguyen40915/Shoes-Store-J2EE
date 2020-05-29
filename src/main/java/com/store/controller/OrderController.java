@@ -23,9 +23,8 @@ public class OrderController {
     @POST
     @LoginRequired
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response processOrder(
-            @FormParam("id") int addressID,
+            @QueryParam("addressId") int addressID,
             @Context ContainerRequestContext requestContext
     ) {
         String token = requestContext.getHeaderString(Constant.AUTH_HEADER).substring(Constant.AUTH_BEARER.length());
