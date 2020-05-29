@@ -41,8 +41,15 @@ public class LoginRequiredFilter implements ContainerRequestFilter
             if(!UserDAO.checkIfUsernameExist(username)) throw new  Exception();
         }
         catch (Exception ex) {
+            com.store.model.Response res = new com.store.model.Response();
+
+            res.setCode("401");
+            res.setMsg("Unauthorized");
+            res.setData("[]");
+            res.setTotalRecords(0);
+
             Response.ResponseBuilder builder = null;
-            builder = Response.status(Response.Status.UNAUTHORIZED).entity("Please login");
+            builder = Response.status(Response.Status.OK).entity(res);
             throw new WebApplicationException(builder.build());
         }
     }

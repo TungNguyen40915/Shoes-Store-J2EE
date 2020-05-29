@@ -13,6 +13,8 @@ public class Address {
     private String district;
     private String ward;
     private String street;
+    private String recipientName;
+    private String recipientPhoneNumber;
     private int deleteFlag;
 
     public int getDeleteFlag() {
@@ -82,5 +84,21 @@ public class Address {
 
     public void setStreet(String street) {
         this.street = street;
+    }
+
+    public String getRecipientName() {
+        return recipientName;
+    }
+
+    public void setRecipientName(String recipientName) {
+        this.recipientName = recipientName;
+    }
+
+    public String getRecipientPhoneNumber() {
+        return recipientPhoneNumber;
+    }
+
+    public void setRecipientPhoneNumber(String recipientPhoneNumber) {
+        this.recipientPhoneNumber = recipientPhoneNumber;
     }
 }

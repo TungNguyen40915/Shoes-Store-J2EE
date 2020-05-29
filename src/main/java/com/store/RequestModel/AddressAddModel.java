@@ -8,6 +8,8 @@ public class AddressAddModel {
     private String district;
     private String ward;
     private String street;
+    private String name;
+    private String phoneNumber;
 
     public AddressAddModel() {
     }
@@ -49,5 +51,21 @@ public class AddressAddModel {
 
     public void setStreet(String street) {
         this.street = street;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

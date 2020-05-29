@@ -8,6 +8,7 @@ import com.store.DAO.ShoesDAO;
 import com.store.DTO.CartItemDTO;
 import com.store.DTO.ShoesDTO;
 import com.store.DTO.UpdateCartItem;
+import com.store.RequestModel.ShoesRatingModel;
 import com.store.model.CartItem;
 import com.store.model.Response;
 import com.store.model.Shoes;
@@ -90,16 +91,14 @@ public class ShoesController {
     @LoginRequired
     @Path("/rating")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response updateCartItem(
-            @FormParam("id") int shoesId,
-            @FormParam("rating") float rating) {
+            ShoesRatingModel model) {
 
         Response res = new Response();
         try {
             res.setCode("OK");
             res.setMsg("Updated Successfully");
-            Shoes shoes = ShoesDAO.ratingShoes(shoesId,rating);
+            Shoes shoes = ShoesDAO.ratingShoes(model.getShoesId(),model.getRating());
             res.setData(mapper.writeValueAsString(ShoesConverter.ConvertShoesEntityToShoesDetailDTO(shoes)));
             res.setTotalRecords(0);
         } catch (Exception e) {

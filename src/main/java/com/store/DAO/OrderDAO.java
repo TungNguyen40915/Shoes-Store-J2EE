@@ -57,13 +57,16 @@ public class OrderDAO {
         int id = CustomerDAO.getCustomerIdByUserName(username);
 
         try {
-            String query = "INSERT INTO Address (customerID, city, district, ward, street) VALUES (?,?,?,?,?)";
+            String query = "INSERT INTO Address (customerID, city, district, ward, street, recipientName, recipientPhoneNumber) VALUES (?,?,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1,String.valueOf(id));
             preparedStatement.setString(2,String.valueOf(addressAddModel.getCity()));
             preparedStatement.setString(3,String.valueOf(addressAddModel.getDistrict()));
             preparedStatement.setString(4,String.valueOf(addressAddModel.getWard()));
             preparedStatement.setString(5,String.valueOf(addressAddModel.getStreet()));
+            preparedStatement.setString(6,String.valueOf(addressAddModel.getName()));
+            preparedStatement.setString(7,String.valueOf(addressAddModel.getPhoneNumber()));
+
 
             int row = preparedStatement.executeUpdate();
 
@@ -207,6 +210,8 @@ public class OrderDAO {
         address.setWard(rs.getString("ward"));
         address.setStreet(rs.getString("street"));
         address.setCustomerID(rs.getInt("customerID"));
+        address.setRecipientName(rs.getString("recipientName"));
+        address.setRecipientPhoneNumber(rs.getString("recipientPhoneNumber"));
         return address;
     }
 

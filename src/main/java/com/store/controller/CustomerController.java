@@ -99,6 +99,7 @@ public class CustomerController {
 
     @GET
     @Path("/getAddresses")
+    @LoginRequired
     @Produces({ MediaType.APPLICATION_JSON })
     public Response getCustomerAddresses(@Context ContainerRequestContext requestContext) {
         String token = requestContext.getHeaderString(Constant.AUTH_HEADER).substring(Constant.AUTH_BEARER.length());

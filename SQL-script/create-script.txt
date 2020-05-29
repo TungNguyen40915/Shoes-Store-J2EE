@@ -170,6 +170,8 @@ create table Customer(
 
 create table Address(
 	id int not null auto_increment,
+	recipientName char(100) not null,
+	recipientPhoneNumber char(10) not null,
     customerID int not null,
     city char(100) not null,
     district char(100) not null,
@@ -384,11 +386,11 @@ VALUES(1),(2);
 INSERT INTO `ShoesStore`.`CartItem`(`cartID`,`stockID`,`amount`)
 VALUES(1,1,2),(1,2,2),(1,4,7),(2,5,4),(2,8,1),(2,1,1);
 
-INSERT INTO `ShoesStore`.`Address` (`customerID`, `city`, `district`, `ward`, `street`)
-VALUES  ('1', 'Tp.HCM', '7', 'Phú Thuận', 'Huỳnh Tấn Phát'),
-		('1', 'Tp.HCM', '8', 'Phú Thuận', 'Huỳnh Tấn Phát'),
-        ('1', 'Tp.HCM', '9', 'Phú Thuận', 'Huỳnh Tấn Phát'),
-        ('2', 'Hà Nội', 'Ba Đình', 'ABC','DEF');
+INSERT INTO `ShoesStore`.`Address` (`customerID`, `city`, `district`, `ward`, `street`, `recipientName`, `recipientPhoneNumber`)
+VALUES  ('1', 'Tp.HCM', '7', 'Phú Thuận', 'Huỳnh Tấn Phát', 'Nguyễn Văn A', '0123456789'),
+		('1', 'Tp.HCM', '8', 'Phú Thuận', 'Huỳnh Tấn Phát', 'Nguyễn Văn A', '0123456789'),
+        ('1', 'Tp.HCM', '9', 'Phú Thuận', 'Huỳnh Tấn Phát', 'Nguyễn Văn A', '0123456789'),
+        ('2', 'Hà Nội', 'Ba Đình', 'ABC','DEF', 'Nguyễn Văn B', '0987654321');
 
 INSERT INTO `ShoesStore`.`Sale` (`saleType`, `amount`, `startDate`, `expiredDate`, `status`) VALUES ('No', '0', '2020/01/01', '2020/01/01', 'ACTIVE');
 
