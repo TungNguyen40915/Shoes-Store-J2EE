@@ -228,6 +228,25 @@ public class OrderDAO {
         return orderItems;
     }
 
+    public static List<CustomerOrder> getOrderListByCustomer(String username){
+        if(connection == null)
+            connection = ConnectionFactory.getConnection();
+        List<CustomerOrder> list = new ArrayList<CustomerOrder>();
+        int id = CustomerDAO.getCustomerIdByUserName(username);
+        try {
+            Statement stmt = connection.createStatement();
+            String query = "select * from CustomerOrder Where customerID = " + id;
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next())
+            {
+                list.add(extractOrderFromResultSet(rs));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
     private static Address extractCustomerAddressFromResultSet(ResultSet rs) throws SQLException {
         Address address = new Address();
         address.setId(rs.getInt("id"));
