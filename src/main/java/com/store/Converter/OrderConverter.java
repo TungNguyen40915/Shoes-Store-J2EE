@@ -25,6 +25,8 @@ public class OrderConverter {
         orderDTO.setStatus(order.getStatus());
         orderDTO.setPaymentStatus(order.getPaymentStatus());
         orderDTO.setDeliveryAddress(order.getDeliveryAddress());
+        orderDTO.setRecipientName(order.getRecipientName());
+        orderDTO.setRecipientPhoneNumber(order.getRecipientPhoneNumber());
         List<CartItemDTO> cartItemDTOS = convertOrderItemToCartItem(OrderDAO.getOrderItemsByOrderId(order.getId()));
         orderDTO.setCartItemDTOList(cartItemDTOS);
 

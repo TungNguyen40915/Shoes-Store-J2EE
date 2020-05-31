@@ -19,6 +19,8 @@ public class CustomerOrder {
     private String status;
     private String paymentStatus;
     private String deliveryAddress;
+    private String recipientName;
+    private String recipientPhoneNumber;
     private int deleteFlag;
 
     public int getDeleteFlag() {
@@ -124,5 +126,21 @@ public class CustomerOrder {
 
     public void setDeliveryAddress(String deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
+    }
+
+    public String getRecipientName() {
+        return recipientName;
+    }
+
+    public void setRecipientName(String recipientName) {
+        this.recipientName = recipientName;
+    }
+
+    public String getRecipientPhoneNumber() {
+        return recipientPhoneNumber;
+    }
+
+    public void setRecipientPhoneNumber(String recipientPhoneNumber) {
+        this.recipientPhoneNumber = recipientPhoneNumber;
     }
 }

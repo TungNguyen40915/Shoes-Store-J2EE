@@ -121,7 +121,7 @@ public class OrderDAO {
     }
 
     private static int createOrder(Connection connection, int customerId, int saleId, int addressId){
-        String query = "INSERT INTO CustomerOrder (customerID,saleID,status,paymentStatus,deliveryAddress) VALUES (?,?,?,?,?)";
+        String query = "INSERT INTO CustomerOrder (customerID,saleID,status,paymentStatus,deliveryAddress,recipientName,recipientPhoneNumber) VALUES (?,?,?,?,?,?,?)";
         Address address = getAddressById(addressId);
         String deliveryAddress = address.getStreet().concat(" ").concat(address.getWard()).
                                                      concat(" ").concat(address.getDistrict()).
@@ -133,6 +133,8 @@ public class OrderDAO {
             preparedStatement.setString(3,"Queueing");
             preparedStatement.setString(4,"No Payment");
             preparedStatement.setString(5,String.valueOf(deliveryAddress));
+            preparedStatement.setString(6,String.valueOf(address.getRecipientName()));
+            preparedStatement.setString(7,String.valueOf(address.getRecipientPhoneNumber()));
 
             int rowAffected = preparedStatement.executeUpdate();
             if(rowAffected == 1)
@@ -272,6 +274,8 @@ public class OrderDAO {
         customerOrder.setStatus(rs.getString("status"));
         customerOrder.setPaymentStatus(rs.getString("paymentStatus"));
         customerOrder.setSaleID(rs.getInt("saleID"));
+        customerOrder.setRecipientName(rs.getString("recipientName"));
+        customerOrder.setRecipientPhoneNumber(rs.getString("recipientPhoneNumber"));
         return customerOrder;
     }
 

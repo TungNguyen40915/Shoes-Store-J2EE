@@ -121,6 +121,8 @@ create table CustomerOrder(
     status char(20) not null,
     paymentStatus char(20) not null,
     deliveryAddress char(100) not null,
+    recipientName char(100) not null,
+    recipientPhoneNumber char(10) not null,
     deleteFlag bit default 0,
     primary key(id)
 );
