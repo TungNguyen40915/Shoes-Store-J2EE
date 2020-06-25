@@ -3,6 +3,7 @@ package com.store.Converter;
 import com.store.DAO.*;
 import com.store.DTO.ShoesDTO;
 import com.store.DTO.ShoesDetailDTO;
+import com.store.model.Sale;
 import com.store.model.Shoes;
 import com.store.model.ShoesImage;
 
@@ -22,8 +23,14 @@ public class ShoesConverter {
 
         if(shoes.getIsOnSale() == 0) shoesDTO.setSalePrice(shoes.getPrice());
         else {
-            //hanle sale
-            shoesDTO.setSalePrice(0);
+            Sale sale = SaleDAO.getSaleByShoesId(shoes.getId());
+            if(sale != null){
+                if(sale.getSaleType().equals("AMOUNT"))
+                    shoesDTO.setSalePrice(shoes.getPrice() - sale.getAmount());
+                else if(sale.getSaleType().equals("PERCENT"))
+                    shoesDTO.setSalePrice(shoes.getPrice() * sale.getAmount() / 100);
+            }
+            else shoesDTO.setSalePrice(shoes.getPrice());
         }
 
         return shoesDTO;
@@ -45,13 +52,18 @@ public class ShoesConverter {
         shoesDetailDTO.setSizes(StockDAO.getAllSizeByShoesID(shoes.getId()));
         shoesDetailDTO.setImages(ShoesImageDAO.getAllImagesById(shoes.getId()));
         shoesDetailDTO.setRatingCount(shoes.getRatingCount());
+
         if(shoes.getIsOnSale() == 0) shoesDetailDTO.setSalePrice(shoes.getPrice());
         else {
-            //hanle sale
-            shoesDetailDTO.setSalePrice(0);
+            Sale sale = SaleDAO.getSaleByShoesId(shoes.getId());
+            if(sale != null){
+                if(sale.getSaleType().equals("AMOUNT"))
+                    shoesDetailDTO.setSalePrice(shoes.getPrice() - sale.getAmount());
+                else if(sale.getSaleType().equals("PERCENT"))
+                    shoesDetailDTO.setSalePrice(shoes.getPrice() * sale.getAmount() / 100);
+            }
+            else shoesDetailDTO.setSalePrice(shoes.getPrice());
         }
-
-
         return shoesDetailDTO;
     }
 }

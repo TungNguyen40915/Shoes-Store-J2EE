@@ -12,7 +12,7 @@ public class ShoesDAO {
 
     private static Connection connection;
 
-    public static List<Shoes> getAllShoes(String gender,String isNew,String sale,String size,String page, String style,  String brand, String search, String pageSize) {
+    public static List<Shoes> getAllShoes(String gender,String isNew,String sale,String size,String page, String style,  String brand, String search, String pageSize, String priceRange) {
         List<Shoes> shoes = new ArrayList<Shoes>();
 
         if(connection == null)
@@ -20,7 +20,7 @@ public class ShoesDAO {
         try {
             Statement stmt = connection.createStatement();
             String query = "SELECT * FROM Shoes";
-            query = query.concat(handleQueryStatement(gender,isNew,sale,size,page,style,brand,search, pageSize));
+            query = query.concat(handleQueryStatement(gender,isNew,sale,size,page,style,brand,search, pageSize, priceRange));
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next())
             {
@@ -34,14 +34,14 @@ public class ShoesDAO {
         return null;
     }
 
-    public static int getTotalRecords(String gender,String isNew,String sale,String size,String page, String style,  String brand, String search, String pageSize){
+    public static int getTotalRecords(String gender,String isNew,String sale,String size,String page, String style,  String brand, String search, String pageSize, String priceRange){
         if(connection == null)
             connection = ConnectionFactory.getConnection();
 
         try {
             Statement stmt = connection.createStatement();
             String query = "Select count(*) as total from Shoes ";
-            query = query.concat(handleQueryStatement(gender,isNew,sale,size,page,style,brand,search, pageSize));
+            query = query.concat(handleQueryStatement(gender,isNew,sale,size,page,style,brand,search, pageSize, priceRange));
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next())
             {
@@ -117,11 +117,11 @@ public class ShoesDAO {
         return shoes;
     }
 
-    private static String handleQueryStatement(String gender,String isNew,String sale,String size,String page, String style,  String brand, String search, String pageSize){
+    private static String handleQueryStatement(String gender,String isNew,String sale,String size,String page, String style,  String brand, String search, String pageSize, String priceRange){
         String query = "";
         List<String> statement = new ArrayList<String>();
 
-        if(gender!=null  || isNew!=null || sale!=null || size!=null || style!=null || search!=null || brand != null){
+        if(gender!=null  || isNew!=null || sale!=null || size!=null || style!=null || search!=null || brand != null || priceRange != null){
             if(gender != null){
                 statement.add("genderID = " + GenderDAO.getGenderID(gender));
             }
@@ -140,7 +140,26 @@ public class ShoesDAO {
             if(search != null){
                 statement.add("name like \'%" + search + "%\'  OR Code like \'%" + search + "%\'");
             }
-
+            if(priceRange != null){
+                switch (priceRange){
+                    case "1":
+                        statement.add(" price <= 1000000 ");
+                        break;
+                    case "2":
+                        statement.add("  price >= 1000000 AND price <= 3000000 ");
+                        break;
+                    case "3":
+                        statement.add("  price >= 3000000 AND price <= 5000000");
+                        break;
+                    case "4":
+                        statement.add("  price >= 5000000 AND price <= 10000000");
+                        break;
+                    case "5":
+                        statement.add(" price >= 10000000 ");
+                        break;
+                    default: break;
+                }
+            }
             query = query.concat("  WHERE ");
             query = query.concat(statement.get(0));
             for(int i = 1; i< statement.size(); i++){

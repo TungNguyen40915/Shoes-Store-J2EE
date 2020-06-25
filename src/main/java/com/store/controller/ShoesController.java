@@ -40,7 +40,14 @@ public class ShoesController {
             @QueryParam("style") String style,
             @QueryParam("brand") String brand,
             @QueryParam("search") String search,
-            @QueryParam("page-size") String pageSize
+            @QueryParam("page-size") String pageSize,
+            @QueryParam("price-range") String priceRange
+            //1: < 1M
+            //2: 1M - 3M
+            //3: 3M - 5M
+            //4: 5M - 10M
+            //5: > 10M
+
     ) {
         Response res = new Response();
         res.setCode("OK");
@@ -48,12 +55,12 @@ public class ShoesController {
         try {
             List<Shoes> shoes = new ArrayList<Shoes>();
             List<ShoesDTO> shoesDTOS = new ArrayList<ShoesDTO>();
-            shoes = ShoesDAO.getAllShoes(gender,isNew,sale,size,page,style,brand,search, pageSize);
+            shoes = ShoesDAO.getAllShoes(gender,isNew,sale,size,page,style,brand,search, pageSize, priceRange);
             for (Shoes s: shoes) {
                 shoesDTOS.add(ShoesConverter.ConvertShoesEntityToShoesDTO(s));
             }
             res.setData(mapper.writeValueAsString(shoesDTOS));
-            res.setTotalRecords(ShoesDAO.getTotalRecords(gender,isNew,sale,size,page,style,brand,search, pageSize));
+            res.setTotalRecords(ShoesDAO.getTotalRecords(gender,isNew,sale,size,page,style,brand,search, pageSize, priceRange));
 
         } catch (IOException e) {
             e.printStackTrace();
