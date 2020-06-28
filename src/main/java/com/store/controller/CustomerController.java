@@ -8,6 +8,7 @@ import com.store.DAO.OrderDAO;
 import com.store.DAO.ShoesDAO;
 import com.store.RequestModel.AddressAddModel;
 import com.store.RequestModel.CustomerUpdateModel;
+import com.store.RequestModel.NewCustomerModel;
 import com.store.RequestModel.UpdateAddressModel;
 import com.store.model.Address;
 import com.store.model.Customer;
@@ -68,6 +69,26 @@ public class CustomerController {
         res.setMsg("Get Data Successfully");
         try {
             Customer customer = CustomerDAO.updateCustomerInfomation(username,customerUpdateModel);
+            res.setTotalRecords(1);
+            res.setData(mapper.writeValueAsString(CustomerConverter.ConvertCustomerEntityToCustomerDTO(customer)));
+        } catch (IOException e) {
+            e.printStackTrace();
+            res.setTotalRecords(0);
+            res.setData("{}");
+        }
+        return res;
+    }
+
+    @POST
+    @Path("/register")
+    @Produces({ MediaType.APPLICATION_JSON })
+    public Response registerCustomer(NewCustomerModel newCustomerModel) throws Exception {
+        Response res = new Response();
+
+        try {
+            res.setCode("OK");
+            res.setMsg("Get Data Successfully");
+            Customer customer = CustomerDAO.registerCustomer(newCustomerModel);
             res.setTotalRecords(1);
             res.setData(mapper.writeValueAsString(CustomerConverter.ConvertCustomerEntityToCustomerDTO(customer)));
         } catch (IOException e) {

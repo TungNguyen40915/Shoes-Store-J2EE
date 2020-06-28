@@ -1,7 +1,9 @@
 package com.store.DAO;
 
 import com.store.RequestModel.CustomerUpdateModel;
+import com.store.RequestModel.NewCustomerModel;
 import com.store.model.Customer;
+import com.store.model.User;
 import com.store.util.ConnectionFactory;
 
 import java.sql.*;
@@ -71,6 +73,40 @@ public class CustomerDAO {
 
         return null;
     }
+
+    public static Customer registerCustomer(NewCustomerModel newCustomerModel) throws Exception {
+        if(connection == null)
+            connection = ConnectionFactory.getConnection();
+
+        String insertCustomer = "INSERT INTO Customer (name,dateOfBirth,email,phoneNumber,genderID,userID) VALUES (?,?,?,?,?,?)";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(insertCustomer, Statement.RETURN_GENERATED_KEYS)) {
+            int user = UserDAO.insertUser(newCustomerModel.getEmail(), newCustomerModel.getPassword(), 1);
+
+            if(user == 0)
+                throw new Exception("Email has already registered");
+            else if(user == 2)
+                throw new Exception("Something went wrong");
+            else if(user == 1) {
+                pstmt.setString(1, String.valueOf(newCustomerModel.getName()));
+                pstmt.setString(2, String.valueOf(newCustomerModel.getDateOfBirth()));
+                pstmt.setString(3, String.valueOf(newCustomerModel.getEmail()));
+                pstmt.setString(4, String.valueOf(newCustomerModel.getPhoneNumber()));
+                pstmt.setString(5, String.valueOf(GenderDAO.getGenderID(newCustomerModel.getGender())));
+                pstmt.setString(6, String.valueOf(UserDAO.getUserIdByUsername(newCustomerModel.getEmail())));
+                int affectedRows = pstmt.executeUpdate();
+                if (affectedRows > 0) {
+                    return getCustomerInfomationByUsername(newCustomerModel.getEmail());
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return null;
+    }
+
+
 
     private static Customer extractCustomerFromResultSet(ResultSet rs) throws SQLException {
         Customer customer = new Customer();
