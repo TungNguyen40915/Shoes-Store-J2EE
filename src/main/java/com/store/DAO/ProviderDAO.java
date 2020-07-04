@@ -4,15 +4,29 @@ import com.store.model.Provider;
 import com.store.model.Sale;
 import com.store.util.ConnectionFactory;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProviderDAO {
     private static Connection connection;
+
+    public static boolean insert(String name) {
+        if(connection == null)
+            connection = ConnectionFactory.getConnection();
+        int generatedKey = 0;
+        try {
+            String query = "INSERT INTO Provider (name) VALUES (?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1,String.valueOf(name));
+
+            int row = preparedStatement.executeUpdate();
+            if (row>0) return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
 
     public static List<Provider> getAllProviders(){
         List<Provider> list = new ArrayList<Provider>();
