@@ -61,4 +61,10 @@ public class JWTProvider {
                 .getBody().getSubject();
     }
 
+    static public Claims getClaimsFromJwtToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(token)
+                .getBody();
+    }
 }
