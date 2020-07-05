@@ -86,5 +86,26 @@ public class UserDAO {
         return 2; //error
     }
 
+    public static User getUserByUsername(String username){
+        if(connection == null)
+            connection = ConnectionFactory.getConnection();
+        try {
+            Statement stmt = connection.createStatement();
+            String query = "select * from User Where username = '" + username + "'";
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next())
+            {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setUsername(rs.getString("username"));
+                user.setRoleID(rs.getInt("roleID"));
+                return user;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
 
 }

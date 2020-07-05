@@ -23,6 +23,18 @@ public class JWTProvider {
                 .compact();
     }
 
+    static public String generateAdminJwtToken(int nameid, String unique_name, String role) {
+        return Jwts.builder()
+                .claim("nameid",nameid)
+                .claim("unique_name",unique_name)
+                .claim("role", role)
+                .setNotBefore(new Date())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpiration))
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
+    }
+
     static public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
