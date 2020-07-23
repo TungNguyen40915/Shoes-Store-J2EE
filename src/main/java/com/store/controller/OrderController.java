@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Path("/order")
+@Path("/client/order")
 public class OrderController {
     ObjectMapper mapper = new ObjectMapper();
 

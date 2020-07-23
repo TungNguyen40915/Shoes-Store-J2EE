@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 
-@Path("/types")
+@Path("/client/types")
 public class ShoesTypeController {
     ObjectMapper mapper = new ObjectMapper();
 

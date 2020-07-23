@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Path("/cart")
+@Path("/client/cart")
 public class CartController {
 
     ObjectMapper mapper = new ObjectMapper();

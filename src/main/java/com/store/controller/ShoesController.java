@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Path("/shoes")
+@Path("/client/shoes")
 public class ShoesController {
 
     ObjectMapper mapper = new ObjectMapper();
@@ -60,7 +60,7 @@ public class ShoesController {
                 shoesDTOS.add(ShoesConverter.ConvertShoesEntityToShoesDTO(s));
             }
             res.setData(mapper.writeValueAsString(shoesDTOS));
-            res.setTotalRecords(ShoesDAO.getTotalRecords(gender,isNew,sale,size,page,style,brand,search, pageSize, priceRange));
+            res.setTotalRecords(ShoesDAO.getTotalRecords(gender,isNew,sale,size,null,style,brand,search, pageSize, priceRange));
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Path("/customer")
+@Path("/client/customer")
 public class CustomerController {
 
     ObjectMapper mapper = new ObjectMapper();

@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 
-@Path("/brands")
+@Path("/client/brands")
 public class BrandController {
 
     ObjectMapper mapper = new ObjectMapper();
@@ -24,15 +24,18 @@ public class BrandController {
     @Produces({ MediaType.APPLICATION_JSON })
     public Response getAllBrands(){
         Response res = new Response();
-        res.setCode("OK");
-        res.setMsg("Get Data Successfully");
         try {
             List<String> list = ShoesBrandDAO.getAllBrands();
+            res.setCode("OK");
+            res.setMsg("Get Data Successfully");
             res.setTotalRecords(list.size());
             res.setData(mapper.writeValueAsString(list));
         } catch (IOException e) {
             e.printStackTrace();
+            res.setCode("FAIL");
+            res.setMsg("Get Data Failed");
             res.setData("[]");
+            res.setTotalRecords(0);
         }
         return res;
     }

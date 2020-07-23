@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-@Path("/auth/login")
+@Path("/admin/auth/login")
 public class Authentication {
     ObjectMapper mapper = new ObjectMapper();
 

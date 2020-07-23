@@ -12,18 +12,17 @@ public class ShoesDAO {
 
     private static Connection connection;
 
-    public static List<Shoes> getAllShoes(String gender,String isNew,String sale,String size,String page, String style,  String brand, String search, String pageSize, String priceRange) {
+    public static List<Shoes> getAllShoes(String gender, String isNew, String sale, String size, String page, String style, String brand, String search, String pageSize, String priceRange) {
         List<Shoes> shoes = new ArrayList<Shoes>();
 
-        if(connection == null)
+        if (connection == null)
             connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
             String query = "SELECT * FROM Shoes";
-            query = query.concat(handleQueryStatement(gender,isNew,sale,size,page,style,brand,search, pageSize, priceRange));
+            query = query.concat(handleQueryStatement(gender, isNew, sale, size, page, style, brand, search, pageSize, priceRange));
             ResultSet rs = stmt.executeQuery(query);
-            while(rs.next())
-            {
+            while (rs.next()) {
                 Shoes s = extractShoesFromResultSet(rs);
                 shoes.add(s);
             }
@@ -34,17 +33,16 @@ public class ShoesDAO {
         return null;
     }
 
-    public static int getTotalRecords(String gender,String isNew,String sale,String size,String page, String style,  String brand, String search, String pageSize, String priceRange){
-        if(connection == null)
+    public static int getTotalRecords(String gender, String isNew, String sale, String size, String page, String style, String brand, String search, String pageSize, String priceRange) {
+        if (connection == null)
             connection = ConnectionFactory.getConnection();
 
         try {
             Statement stmt = connection.createStatement();
             String query = "Select count(*) as total from Shoes ";
-            query = query.concat(handleQueryStatement(gender,isNew,sale,size,page,style,brand,search, pageSize, priceRange));
+            query = query.concat(handleQueryStatement(gender, isNew, sale, size, page, style, brand, search, pageSize, priceRange));
             ResultSet rs = stmt.executeQuery(query);
-            while(rs.next())
-            {
+            while (rs.next()) {
                 return rs.getInt("total");
             }
         } catch (SQLException ex) {
@@ -53,7 +51,7 @@ public class ShoesDAO {
         return 0;
     }
 
-    public static Shoes ratingShoes(int id, float rating ){
+    public static Shoes ratingShoes(int id, float rating) {
         if (connection == null)
             connection = ConnectionFactory.getConnection();
 
@@ -79,15 +77,14 @@ public class ShoesDAO {
     }
 
 
-    public static Shoes getShoesById(int id){
-        if(connection == null)
+    public static Shoes getShoesById(int id) {
+        if (connection == null)
             connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
             String query = "SELECT * FROM Shoes WHERE id = " + id + "  LIMIT 1";
             ResultSet rs = stmt.executeQuery(query);
-            while(rs.next())
-            {
+            while (rs.next()) {
                 return extractShoesFromResultSet(rs);
             }
         } catch (SQLException ex) {
@@ -95,7 +92,6 @@ public class ShoesDAO {
         }
         return null;
     }
-
 
 
     private static Shoes extractShoesFromResultSet(ResultSet rs) throws SQLException {
@@ -117,31 +113,31 @@ public class ShoesDAO {
         return shoes;
     }
 
-    private static String handleQueryStatement(String gender,String isNew,String sale,String size,String page, String style,  String brand, String search, String pageSize, String priceRange){
+    private static String handleQueryStatement(String gender, String isNew, String sale, String size, String page, String style, String brand, String search, String pageSize, String priceRange) {
         String query = "";
         List<String> statement = new ArrayList<String>();
 
-        if(gender!=null  || isNew!=null || sale!=null || size!=null || style!=null || search!=null || brand != null || priceRange != null){
-            if(gender != null){
+        if (gender != null || isNew != null || sale != null || size != null || style != null || search != null || brand != null || priceRange != null) {
+            if (gender != null) {
                 statement.add("genderID = " + GenderDAO.getGenderID(gender));
             }
-            if(isNew != null){
+            if (isNew != null) {
                 statement.add(" isNew = 0");
             }
-            if(sale != null){
+            if (sale != null) {
                 statement.add("isOnSale = 0");
             }
-            if(style != null){
+            if (style != null) {
                 statement.add("styleID =" + ShoesStyleDAO.getStyleID(style));
             }
-            if(brand != null){
+            if (brand != null) {
                 statement.add("brandID =" + ShoesBrandDAO.getBrandID(brand));
             }
-            if(search != null){
+            if (search != null) {
                 statement.add("name like \'%" + search + "%\'  OR Code like \'%" + search + "%\'");
             }
-            if(priceRange != null){
-                switch (priceRange){
+            if (priceRange != null) {
+                switch (priceRange) {
                     case "1":
                         statement.add(" price <= 1000000 ");
                         break;
@@ -157,25 +153,80 @@ public class ShoesDAO {
                     case "5":
                         statement.add(" price >= 10000000 ");
                         break;
-                    default: break;
+                    default:
+                        break;
                 }
             }
             query = query.concat("  WHERE ");
             query = query.concat(statement.get(0));
-            for(int i = 1; i< statement.size(); i++){
+            for (int i = 1; i < statement.size(); i++) {
                 query = query.concat("  AND  ");
                 query = query.concat(statement.get(i));
             }
         }
         query = query.concat(" order by createDate DESC");
-        if(pageSize != null)
+        if (pageSize != null)
             query = query.concat(" LIMIT " + pageSize);
         else
-            query = query.concat(" LIMIT 20  " );
+            query = query.concat(" LIMIT 20  ");
 
-        if(page!=null){
-            query = query.concat("  OFFSET  " + Integer.parseInt(page)*20);
+        if (page != null) {
+            query = query.concat("  OFFSET  " + Integer.parseInt(page) * Integer.parseInt(pageSize));
         }
+        return query;
+    }
+
+    public static List<Shoes> getAllShoesByAdmin(int page, int pageSize, int styleId, int brandId, String search, int price, int minPrice, int maxPrice) {
+        List<Shoes> shoes = new ArrayList<Shoes>();
+
+        if (connection == null)
+            connection = ConnectionFactory.getConnection();
+        try {
+            Statement stmt = connection.createStatement();
+            String query = "SELECT * FROM Shoes";
+            query = query.concat(handleQueryStatementByAdmin(page, pageSize, styleId, brandId, search, price, minPrice, maxPrice));
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Shoes s = extractShoesFromResultSet(rs);
+                shoes.add(s);
+            }
+            return shoes;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    private static String handleQueryStatementByAdmin(int page, int pageSize, int styleId, int brandId, String search, int price, int minPrice, int maxPrice) {
+        String query = "";
+        List<String> statement = new ArrayList<String>();
+
+        if (styleId != 0 || search != null || brandId != 0 || price != 0 || minPrice != 0 || maxPrice != 0) {
+            if (styleId != 0) {
+                statement.add("styleID =" + styleId);
+            }
+            if (brandId != 0) {
+                statement.add("brandID =" + brandId);
+            }
+            if (search != null) {
+                statement.add("name like \'%" + search + "%\'  OR Code like \'%" + search + "%\'");
+            }
+            if (price != 0) {
+                statement.add(" price = " + price);
+            }
+            if (price != 0) {
+                statement.add(" price = " + price);
+            }
+
+            query = query.concat("  WHERE ");
+            query = query.concat(statement.get(0));
+            for (int i = 1; i < statement.size(); i++) {
+                query = query.concat("  AND  ");
+                query = query.concat(statement.get(i));
+            }
+        }
+
+
         return query;
     }
 }

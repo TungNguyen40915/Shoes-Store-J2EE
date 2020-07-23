@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 
-@Path("/sizes")
+@Path("/client/sizes")
 public class SizeController {
     ObjectMapper mapper = new ObjectMapper();
 
