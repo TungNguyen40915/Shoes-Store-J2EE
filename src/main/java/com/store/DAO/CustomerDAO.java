@@ -7,6 +7,7 @@ import com.store.model.User;
 import com.store.util.ConnectionFactory;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +82,7 @@ public class CustomerDAO {
         String insertCustomer = "INSERT INTO Customer (name,dateOfBirth,email,phoneNumber,genderID,userID) VALUES (?,?,?,?,?,?)";
 
         try (PreparedStatement pstmt = connection.prepareStatement(insertCustomer, Statement.RETURN_GENERATED_KEYS)) {
-            int user = UserDAO.insertUser(newCustomerModel.getEmail(), newCustomerModel.getPassword(), 1);
+            int user = UserDAO.insertUser(newCustomerModel.getUsername(), newCustomerModel.getPassword(), 1);
 
             if(user == 0)
                 throw new Exception("Email has already registered");
@@ -89,14 +90,20 @@ public class CustomerDAO {
                 throw new Exception("Something went wrong");
             else if(user == 1) {
                 pstmt.setString(1, String.valueOf(newCustomerModel.getName()));
-                pstmt.setString(2, String.valueOf(newCustomerModel.getDateOfBirth()));
+                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                Date date = new Date(inputFormat.parse(newCustomerModel.getDateOfBirth()).getTime());
+                pstmt.setDate(2, date);
                 pstmt.setString(3, String.valueOf(newCustomerModel.getEmail()));
                 pstmt.setString(4, String.valueOf(newCustomerModel.getPhoneNumber()));
-                pstmt.setString(5, String.valueOf(GenderDAO.getGenderID(newCustomerModel.getGender())));
-                pstmt.setString(6, String.valueOf(UserDAO.getUserIdByUsername(newCustomerModel.getEmail())));
+                //TODO: hardcoded fix later
+                int genderID;
+                if (newCustomerModel.getGender().equals("male")) genderID = 1;
+                else genderID = 2;
+                pstmt.setString(5, String.valueOf(genderID));
+                pstmt.setString(6, String.valueOf(UserDAO.getUserIdByUsername(newCustomerModel.getUsername())));
                 int affectedRows = pstmt.executeUpdate();
                 if (affectedRows > 0) {
-                    return getCustomerInfomationByUsername(newCustomerModel.getEmail());
+                    return getCustomerInfomationByUsername(newCustomerModel.getUsername());
                 }
             }
         } catch (SQLException ex) {

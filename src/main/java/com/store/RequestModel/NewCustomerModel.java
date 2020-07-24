@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement()
 public class NewCustomerModel {
+    private String username;
     private String name;
     private String dateOfBirth;
     private String email;
@@ -12,10 +13,8 @@ public class NewCustomerModel {
     private String password;
 
 
-    public NewCustomerModel() {
-    }
-
-    public NewCustomerModel(String name, String dateOfBirth, String email, String phoneNumber, String gender, String password) {
+    public NewCustomerModel(String username, String name, String dateOfBirth, String email, String phoneNumber, String gender, String password) {
+        this.username = username;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
@@ -24,6 +23,16 @@ public class NewCustomerModel {
         this.password = password;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public NewCustomerModel() {
+    }
     public String getName() {
         return name;
     }

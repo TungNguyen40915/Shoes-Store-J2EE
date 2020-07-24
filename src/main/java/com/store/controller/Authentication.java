@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import com.store.model.Response;
 import org.codehaus.jackson.map.ObjectMapper;
 
-@Path("/authentication")
+@Path("/client/authentication")
 public class Authentication {
     ObjectMapper mapper = new ObjectMapper();
 
