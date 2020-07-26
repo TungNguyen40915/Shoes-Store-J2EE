@@ -3,14 +3,15 @@ package com.store.controller;
 import com.store.Converter.CustomerConverter;
 import com.store.DAO.CustomerDAO;
 import com.store.DAO.UserDAO;
+import com.store.DTO.AdminLoginResponse;
 import com.store.RequestModel.LoginModel;
 import com.store.model.Customer;
 import com.store.util.JWTProvider;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-import com.store.model.Response;
 import org.codehaus.jackson.map.ObjectMapper;
 
 @Path("/client/authentication")
@@ -20,23 +21,26 @@ public class Authentication {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response authenticateUser(LoginModel user) {
-
+        Response.ResponseBuilder builder = Response.status(Response.Status.OK);
         try {
             authenticate(user.getUsername(), user.getPassword());
             String token = issueToken(user.getUsername());
             Customer customer = CustomerDAO.getCustomerInfomationByUsername(user.getUsername());
-            return new Response(
-                    "200",
+            com.store.model.Response entity = new com.store.model.Response("200",
                     "Login successfully",
                     mapper.writeValueAsString(CustomerConverter.ConvertCustomerEntityToUserLogin(customer,token)),
                     1);
-
+            builder.entity(entity);
+            return builder.build();
         } catch (Exception e) {
-            return new Response(
+            com.store.model.Response entity = new com.store.model.Response(
                     "403",
                     "Login failed",
                     "AuthorizedToken: null",
                     0);
+            builder.status(Response.Status.UNAUTHORIZED);
+            builder.entity(entity);
+            return builder.build();
         }
     }
 

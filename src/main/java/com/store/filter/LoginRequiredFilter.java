@@ -49,7 +49,7 @@ public class LoginRequiredFilter implements ContainerRequestFilter
             res.setTotalRecords(0);
 
             Response.ResponseBuilder builder = null;
-            builder = Response.status(Response.Status.OK).entity(res);
+            builder = Response.status(Response.Status.UNAUTHORIZED).entity(res);
             throw new WebApplicationException(builder.build());
         }
     }
