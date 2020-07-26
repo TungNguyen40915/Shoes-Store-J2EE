@@ -1,24 +1,15 @@
 package com.store.controller;
 
 import com.store.Annotation.LoginRequired;
-import com.store.Converter.CartConverter;
 import com.store.Converter.ShoesConverter;
-import com.store.DAO.CartDAO;
 import com.store.DAO.ShoesDAO;
-import com.store.DTO.CartItemDTO;
 import com.store.DTO.ShoesDTO;
-import com.store.DTO.UpdateCartItem;
 import com.store.RequestModel.ShoesRatingModel;
-import com.store.model.CartItem;
 import com.store.model.Response;
 import com.store.model.Shoes;
-import com.store.util.Constant;
-import com.store.util.JWTProvider;
-import com.store.util.Util;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import javax.ws.rs.*;
-import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.ArrayList;
