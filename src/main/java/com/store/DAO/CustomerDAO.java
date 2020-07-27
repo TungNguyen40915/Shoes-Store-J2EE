@@ -18,9 +18,10 @@ public class CustomerDAO {
         if(connection == null)
             connection = ConnectionFactory.getConnection();
         try {
-            Statement stmt = connection.createStatement();
-            String query = "select Id from Customer Where userID = (Select Id from User Where username= \'"+ username + "\' limit 1);";
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "select Id from Customer Where userID = (Select Id from User Where username=? limit 1);";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1,username);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 return rs.getInt("Id");
@@ -37,9 +38,10 @@ public class CustomerDAO {
 
         try {
             int userId = getCustomerIdByUserName(username);
-            Statement stmt = connection.createStatement();
-            String query = "select * from Customer Where id = " + userId;
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "select * from Customer Where id=?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1,userId);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 return extractCustomerFromResultSet(rs);

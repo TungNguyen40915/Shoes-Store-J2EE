@@ -4,10 +4,7 @@ import com.store.model.Gender;
 import com.store.model.Shoes;
 import com.store.util.ConnectionFactory;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class GenderDAO {
 
@@ -18,9 +15,10 @@ public class GenderDAO {
         if(connection == null)
             connection = ConnectionFactory.getConnection();
         try {
-            Statement stmt = connection.createStatement();
-            String query = "SELECT id FROM Gender Where name = \"" + genderName + "\" LIMIT 1;";
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "SELECT id FROM Gender Where name=? LIMIT 1;";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1,genderName);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 return rs.getInt("id");
@@ -36,9 +34,10 @@ public class GenderDAO {
             connection = ConnectionFactory.getConnection();
 
         try {
-            Statement stmt = connection.createStatement();
-            String query = "SELECT name FROM Gender Where id = \"" + id + "\" LIMIT 1;";
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "SELECT name FROM Gender Where id=? LIMIT 1;";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1,id);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 return rs.getString("name");

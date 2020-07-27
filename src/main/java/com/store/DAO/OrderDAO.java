@@ -22,9 +22,10 @@ public class OrderDAO {
         int id = CustomerDAO.getCustomerIdByUserName(username);
 
         try {
-            Statement stmt = connection.createStatement();
-            String query = "select * from Address Where customerID = " + id;
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "select * from Address Where customerID=?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1,id);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 list.add(extractCustomerAddressFromResultSet(rs));
@@ -39,9 +40,10 @@ public class OrderDAO {
         if(connection == null)
             connection = ConnectionFactory.getConnection();
         try {
-            Statement stmt = connection.createStatement();
-            String query = "select * from Address Where id = " + id;
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "select * from Address Where id=?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1,id);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 return extractCustomerAddressFromResultSet(rs);
@@ -201,9 +203,10 @@ public class OrderDAO {
 
     public static CustomerOrder getOrderById(int id){
         try {
-            Statement stmt = connection.createStatement();
-            String query = "select * from CustomerOrder Where id = " + id;
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "select * from CustomerOrder Where id=?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1,id);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 return extractOrderFromResultSet(rs);
@@ -217,9 +220,10 @@ public class OrderDAO {
     public static List<OrderItem> getOrderItemsByOrderId(int id){
         List<OrderItem> orderItems = new ArrayList<OrderItem>();
         try {
-            Statement stmt = connection.createStatement();
-            String query = "select * from OrderItem Where orderID = " + id;
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "select * from OrderItem Where orderID=?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1,id);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 orderItems.add(extractOrderItemFromResultSet(rs));
@@ -236,9 +240,10 @@ public class OrderDAO {
         List<CustomerOrder> list = new ArrayList<CustomerOrder>();
         int id = CustomerDAO.getCustomerIdByUserName(username);
         try {
-            Statement stmt = connection.createStatement();
-            String query = "select * from CustomerOrder Where customerID = " + id;
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "select * from CustomerOrder Where customerID=?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1,id);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 list.add(extractOrderFromResultSet(rs));

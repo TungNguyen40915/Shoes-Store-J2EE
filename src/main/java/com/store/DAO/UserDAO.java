@@ -12,9 +12,11 @@ public class UserDAO {
         if(connection == null)
             connection = ConnectionFactory.getConnection();
         try {
-            Statement stmt = connection.createStatement();
-            String query = "select username from User Where username = \'" + username + "\'   AND   passwordHash =  \'" + password + "\'";
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "select username from User Where username = ? AND passwordHash = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1,username);
+            stmt.setString(2,password);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 return rs.getString("username");
@@ -29,9 +31,10 @@ public class UserDAO {
         if(connection == null)
             connection = ConnectionFactory.getConnection();
         try {
-            Statement stmt = connection.createStatement();
-            String query = "select username from User Where username = \'" + username + "\'";
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "select username from User Where username = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1,username);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 return true;
@@ -46,9 +49,10 @@ public class UserDAO {
         if(connection == null)
             connection = ConnectionFactory.getConnection();
         try {
-            Statement stmt = connection.createStatement();
-            String query = "select id from User Where username = \'" + username + "\'";
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "select id from User Where username = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1,username);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 return rs.getInt("id");
@@ -90,9 +94,10 @@ public class UserDAO {
         if(connection == null)
             connection = ConnectionFactory.getConnection();
         try {
-            Statement stmt = connection.createStatement();
-            String query = "select * from User Where username = '" + username + "'";
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "select * from User Where username = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1,username);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 User user = new User();

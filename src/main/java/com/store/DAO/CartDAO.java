@@ -16,9 +16,10 @@ public class CartDAO {
             connection = ConnectionFactory.getConnection();
         List<CartItem> cartItems = new ArrayList<CartItem>();
         try {
-            Statement stmt = connection.createStatement();
-            String query = "select * from CartItem Where cartID = " + cartId;
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "select * from CartItem Where cartID=?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1,cartId);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 cartItems.add(extractCartItemFromResultSet(rs));
             }
@@ -113,9 +114,11 @@ public class CartDAO {
         if (connection == null)
             connection = ConnectionFactory.getConnection();
         try {
-            Statement stmt = connection.createStatement();
-            String query = "select * from CartItem Where stockID = " + stockID + "  AND  cartID = " + cartID;
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "select * from CartItem Where stockID=? AND cartID=?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1,stockID);
+            stmt.setInt(2, cartID);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 return extractCartItemFromResultSet(rs);
             }
@@ -131,9 +134,10 @@ public class CartDAO {
         try {
             int customerId = CustomerDAO.getCustomerIdByUserName(username);
             if (customerId != -1) {
-                Statement stmt = connection.createStatement();
-                String query = "select id from Cart Where customerID = " + customerId;
-                ResultSet rs = stmt.executeQuery(query);
+                String query = "select id from Cart Where customerID =?";
+                PreparedStatement stmt = connection.prepareStatement(query);
+                stmt.setInt(1,customerId);
+                ResultSet rs = stmt.executeQuery();
                 while (rs.next()) {
                     return rs.getInt("id");
                 }
@@ -150,9 +154,10 @@ public class CartDAO {
             connection = ConnectionFactory.getConnection();
         try {
             if (customerId != -1) {
-                Statement stmt = connection.createStatement();
-                String query = "select id from Cart Where customerID = " + customerId;
-                ResultSet rs = stmt.executeQuery(query);
+                String query = "select id from Cart Where customerID=?";
+                PreparedStatement stmt = connection.prepareStatement(query);
+                stmt.setInt(1,customerId);
+                ResultSet rs = stmt.executeQuery();
                 while (rs.next()) {
                     return rs.getInt("id");
                 }

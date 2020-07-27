@@ -3,10 +3,7 @@ package com.store.DAO;
 import com.store.model.Gender;
 import com.store.util.ConnectionFactory;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +14,10 @@ public class SizeDAO {
         if(connection == null)
             connection = ConnectionFactory.getConnection();
         try {
-            Statement stmt = connection.createStatement();
-            String query = "SELECT id FROM Size Where name = \"" + sizeName + "\" AND deleteFlag = 0 LIMIT 1;";
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "SELECT id FROM Size Where name = ? AND deleteFlag = 0 LIMIT 1;";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1,sizeName);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 return rs.getInt("id");
@@ -35,9 +33,10 @@ public class SizeDAO {
             connection = ConnectionFactory.getConnection();
 
         try {
-            Statement stmt = connection.createStatement();
-            String query = "SELECT name FROM Size Where id = \"" + id + "\" LIMIT 1;";
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "SELECT name FROM Size Where id = ? LIMIT 1;";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1,id);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 return rs.getString("name");

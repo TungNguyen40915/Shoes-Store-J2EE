@@ -6,10 +6,7 @@ import com.store.model.Size;
 import com.store.model.Stock;
 import com.store.util.ConnectionFactory;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +17,10 @@ public class StockDAO {
         if(connection == null)
             connection = ConnectionFactory.getConnection();
         try {
-            Statement stmt = connection.createStatement();
-            String query = "select SUM(instock) as total from Stock Where shoesID = " + id;
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "select SUM(instock) as total from Stock Where shoesID = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1,id);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 return rs.getInt("total");
@@ -40,9 +38,10 @@ public class StockDAO {
         if(connection == null)
             connection = ConnectionFactory.getConnection();
         try {
-            Statement stmt = connection.createStatement();
-            String query = "select id,sizeID from Stock Where instock > 0 AND shoesID =" + id;
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "select id,sizeID from Stock Where instock > 0 AND shoesID =?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1,id);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 temp = SizeDAO.getSizeName(rs.getInt("sizeID"));
@@ -60,9 +59,10 @@ public class StockDAO {
         if(connection == null)
             connection = ConnectionFactory.getConnection();
         try {
-            Statement stmt = connection.createStatement();
-            String query = "select * from Stock Where id =" + id;
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "select * from Stock Where id =?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1,id);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 return extractStockFromResultSet(rs);
@@ -78,9 +78,11 @@ public class StockDAO {
         if(connection == null)
             connection = ConnectionFactory.getConnection();
         try {
-            Statement stmt = connection.createStatement();
-            String query = "select * from Stock Where shoesID = " + shoesId + " AND sizeID = " + sizeId ;
-            ResultSet rs = stmt.executeQuery(query);
+            String query = "select * from Stock Where shoesID = ? AND sizeID = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1,shoesId);
+            stmt.setInt(2,sizeId);
+            ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
                 return extractStockFromResultSet(rs);
