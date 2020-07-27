@@ -251,6 +251,43 @@ public class OrderDAO {
         return list;
     }
 
+    public static List<CustomerOrder> getOrderList(int page, int pageSize){
+        if(connection == null)
+            connection = ConnectionFactory.getConnection();
+        List<CustomerOrder> list = new ArrayList<CustomerOrder>();
+        try {
+            String query = "select * from CustomerOrder LIMIT ? OFFSET ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1,pageSize);
+            stmt.setInt(2,(page-1)*pageSize);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next())
+            {
+                list.add(extractOrderFromResultSet(rs));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    public static int getTotalRecords() {
+        if (connection == null)
+            connection = ConnectionFactory.getConnection();
+
+        try {
+            Statement stmt = connection.createStatement();
+            String query = "Select count(*) as total from CustomerOrder";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return 0;
+    }
+
     private static Address extractCustomerAddressFromResultSet(ResultSet rs) throws SQLException {
         Address address = new Address();
         address.setId(rs.getInt("id"));
