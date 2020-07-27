@@ -1,7 +1,6 @@
 package com.store.controller;
 
-import com.store.DAO.ShoesBrandDAO;
-import com.store.DAO.SizeDAO;
+import com.store.dao.SizeDAO;
 import com.store.model.Response;
 import org.codehaus.jackson.map.ObjectMapper;
 

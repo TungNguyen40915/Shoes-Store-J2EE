@@ -1,14 +1,11 @@
 package com.store.controller;
 
-import com.store.Annotation.LoginRequired;
-import com.store.Converter.OrderConverter;
-import com.store.Converter.ShoesConverter;
-import com.store.DAO.OrderDAO;
-import com.store.DAO.ShoesDAO;
-import com.store.DTO.OrderDTO;
+import com.store.annotation.LoginRequired;
+import com.store.converter.OrderConverter;
+import com.store.dao.OrderDAO;
+import com.store.dto.OrderDTO;
 import com.store.model.CustomerOrder;
 import com.store.model.Response;
-import com.store.model.Shoes;
 import com.store.util.Constant;
 import com.store.util.JWTProvider;
 import org.codehaus.jackson.map.ObjectMapper;

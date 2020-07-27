@@ -1,11 +1,8 @@
 package com.store.controller.admin;
 
-import com.store.Converter.CustomerConverter;
-import com.store.DAO.CustomerDAO;
-import com.store.DAO.UserDAO;
-import com.store.DTO.AdminLoginResponse;
-import com.store.RequestModel.LoginModel;
-import com.store.model.Customer;
+import com.store.dao.UserDAO;
+import com.store.dto.AdminLoginResponse;
+import com.store.requestModel.LoginModel;
 import com.store.model.User;
 import com.store.util.JWTProvider;
 

@@ -1,10 +1,10 @@
 package com.store.controller;
 
-import com.store.Annotation.LoginRequired;
-import com.store.Converter.ShoesConverter;
-import com.store.DAO.ShoesDAO;
-import com.store.DTO.ShoesDTO;
-import com.store.RequestModel.ShoesRatingModel;
+import com.store.annotation.LoginRequired;
+import com.store.converter.ShoesConverter;
+import com.store.dao.ShoesDAO;
+import com.store.dto.ShoesDTO;
+import com.store.requestModel.ShoesRatingModel;
 import com.store.model.Response;
 import com.store.model.Shoes;
 import org.codehaus.jackson.map.ObjectMapper;
