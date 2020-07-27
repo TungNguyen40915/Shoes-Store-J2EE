@@ -1,5 +1,6 @@
 package com.store.dao;
 
+import com.store.model.ShoesType;
 import com.store.util.ConnectionFactory;
 
 import java.sql.*;
@@ -61,5 +62,31 @@ public class ShoesStyleDAO {
             ex.printStackTrace();
         }
         return list;
+    }
+
+    public static List<ShoesType> getAll(){
+        List<ShoesType> list = new ArrayList<ShoesType>();
+        if(connection == null)
+            connection = ConnectionFactory.getConnection();
+        try {
+            Statement stmt = connection.createStatement();
+            String query = "SELECT * FROM ShoesType";
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next())
+            {
+                list.add(extractShoesTypeFromResultSet(rs));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    private static ShoesType extractShoesTypeFromResultSet(ResultSet rs) throws SQLException {
+        ShoesType type = new ShoesType();
+        type.setId(rs.getInt("id"));
+        type.setDescription(rs.getString("description"));
+        type.setName(rs.getString("name"));
+        return type;
     }
 }
