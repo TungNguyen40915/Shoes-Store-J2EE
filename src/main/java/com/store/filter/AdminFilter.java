@@ -1,7 +1,7 @@
 package com.store.filter;
 
-import com.store.Annotation.Admin;
-import com.store.DAO.UserDAO;
+import com.store.annotation.Admin;
+import com.store.dao.UserDAO;
 import com.store.util.Constant;
 import com.store.util.JWTProvider;
 import io.jsonwebtoken.Claims;

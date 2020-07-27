@@ -1,20 +1,17 @@
 package com.store.controller;
 
 
-import com.store.Annotation.LoginRequired;
-import com.store.Converter.CustomerConverter;
-import com.store.Converter.ShoesConverter;
-import com.store.DAO.OrderDAO;
-import com.store.DAO.ShoesDAO;
-import com.store.RequestModel.AddressAddModel;
-import com.store.RequestModel.CustomerUpdateModel;
-import com.store.RequestModel.NewCustomerModel;
-import com.store.RequestModel.UpdateAddressModel;
+import com.store.annotation.LoginRequired;
+import com.store.converter.CustomerConverter;
+import com.store.dao.OrderDAO;
+import com.store.requestModel.AddressAddModel;
+import com.store.requestModel.CustomerUpdateModel;
+import com.store.requestModel.NewCustomerModel;
+import com.store.requestModel.UpdateAddressModel;
 import com.store.model.Address;
 import com.store.model.Customer;
-import com.store.DAO.CustomerDAO;
+import com.store.dao.CustomerDAO;
 import com.store.model.Response;
-import com.store.model.Shoes;
 import com.store.util.Constant;
 import com.store.util.JWTProvider;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -24,7 +21,6 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Path("/client/customer")

@@ -1,7 +1,7 @@
 package com.store.filter;
 
-import com.store.Annotation.LoginRequired;
-import com.store.DAO.UserDAO;
+import com.store.annotation.LoginRequired;
+import com.store.dao.UserDAO;
 import com.store.util.Constant;
 import com.store.util.JWTProvider;
 

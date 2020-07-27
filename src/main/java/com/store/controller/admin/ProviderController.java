@@ -1,13 +1,8 @@
 package com.store.controller.admin;
 
-import com.store.Converter.CustomerConverter;
-import com.store.Converter.ProviderConverter;
-import com.store.DAO.CustomerDAO;
-import com.store.DAO.ProviderDAO;
-import com.store.DAO.ShoesBrandDAO;
-import com.store.RequestModel.LoginModel;
-import com.store.RequestModel.ProviderAddModel;
-import com.store.model.Customer;
+import com.store.converter.ProviderConverter;
+import com.store.dao.ProviderDAO;
+import com.store.requestModel.ProviderAddModel;
 import com.store.model.Provider;
 import com.store.model.Response;
 import org.codehaus.jackson.map.ObjectMapper;
